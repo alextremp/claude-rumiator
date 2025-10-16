@@ -1,0 +1,26 @@
+# Task Template
+id: TASK-XXX
+title: ""
+feature: ""
+status: draft
+priority: medium  # low | medium | high | critical
+iteration: 1
+created: ""
+updated: ""
+
+# Analysis
+business_analyst: null
+architect: null
+
+# Execution
+developers: []
+estimated_complexity: null  # low | medium | high
+
+# Status
+blockers: []
+acceptance_criteria: []
+notes: ""
+
+# References
+functional_spec: ""
+technical_spec: ""

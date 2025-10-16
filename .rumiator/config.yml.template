@@ -1,0 +1,45 @@
+# Rumiator Project Configuration
+language: "es-ES"
+
+project:
+  name: ""
+  description: ""
+  created: ""
+  version: "1.0.0"
+
+settings:
+  default_iteration: 1
+  task_id_prefix: "TASK"
+  task_id_padding: 3  # TASK-001, TASK-002, etc.
+
+workflow:
+  states:
+    - draft
+    - pending-business-analysis
+    - pending-technical-analysis
+    - ready-for-development
+    - in-progress
+    - in-review
+    - blocked
+    - done
+
+tech_stack:
+  frontend: ""
+  backend: ""
+  database: ""
+  deployment: ""
+
+iterations:
+  current: 1
+  total: 0
+
+# Project Repositories and Structure
+# All development will be done under the "repositories" folder
+# Each repository will have its own folder under "repositories"
+# Each created repository will have its own README.md file with details about the repository
+# Each repository will be named according to its technology stack and purpose (e.g., [product-name]-webapp, [product-name]-service-payments, etc.)
+# Example repository in this configuration:
+# - name: "example-webapp"
+#   description: "This is an example repository"
+#   tech_stack: "Node.js, Express, MongoDB"
+repositories: [] # List of associated repositories, all development will be done under the "repositories" folder

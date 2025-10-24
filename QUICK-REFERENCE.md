@@ -4,6 +4,7 @@ One-page cheat sheet for Rumiator commands and workflows.
 
 ## 🚀 Essential Commands
 
+### For New Projects
 ```bash
 /rumiator-init                    # Initialize project
 /rumiator-create-product          # Create product plan
@@ -12,6 +13,13 @@ One-page cheat sheet for Rumiator commands and workflows.
 /rumiator-analyze-tech all        # Create technical specs
 /rumiator-develop-next            # Auto-develop next task
 /rumiator-status                  # Show dashboard
+```
+
+### For Existing Projects
+```bash
+/rumiator-use-into-existing-project  # Analyze codebase & generate docs
+/rumiator-status                     # Show dashboard
+/rumiator-develop-next               # Continue development
 ```
 
 ## 📊 Task States Flow
@@ -49,7 +57,8 @@ draft → pending-business-analysis → pending-technical-analysis
 
 | Command | When to Use | What It Does |
 |---------|-------------|--------------|
-| `/rumiator-init` | Once, at start | Creates project structure |
+| `/rumiator-init` | Once, at start (new projects) | Creates project structure |
+| `/rumiator-use-into-existing-project` | Once, at start (existing projects) | Analyzes code & creates retrospective docs |
 | `/rumiator-create-product` | Once, at start | Generates product plan from idea |
 | `/rumiator-update-plan` | When scope changes | Updates product plan |
 | `/rumiator-create-tasks` | Start of iteration | Creates task list from plan |
@@ -165,6 +174,14 @@ blockers: []
 /rumiator-create-tasks
 /rumiator-analyze-business all
 /rumiator-analyze-tech all
+```
+
+### Integrating into Existing Project
+```bash
+/rumiator-use-into-existing-project
+# Review and refine generated docs
+/rumiator-status
+/rumiator-develop-next
 ```
 
 ### Daily Development

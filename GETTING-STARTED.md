@@ -12,17 +12,40 @@ Welcome! This guide will help you set up and start using Rumiator in 5 minutes.
 
 Rumiator is already installed in this directory! All agents and commands are ready to use.
 
-To use Rumiator in **another project**:
+### Option 1: Quick Setup with Bash Alias (Recommended)
 
-1. Copy the entire `.claude/` directory to your project
-2. Copy the `.rumiator/` directory to your project
-3. You're done!
+Add this alias to your `~/.bashrc` or `~/.zshrc`:
+
+```bash
+# Replace /path/to/rumiator with the actual path where you cloned this repo
+alias init-rumiator='mkdir -p .claude && mkdir -p .rumiator && cp -rf /path/to/rumiator/.claude/* .claude/ && cp -rf /path/to/rumiator/.rumiator/* .rumiator/'
+```
+
+Then, to install Rumiator in any project:
+
+```bash
+cd /path/to/your/project
+init-rumiator
+```
+
+### Option 2: Manual Installation
 
 ```bash
 # From this directory:
 cp -r .claude /path/to/your/project/
 cp -r .rumiator /path/to/your/project/
 ```
+
+### Option 3: For Existing Projects with Code
+
+If your project already has code and you want to generate documentation based on the current state:
+
+1. First install Rumiator (using Option 1 or 2)
+2. In Claude Code, run:
+   ```
+   /rumiator-use-into-existing-project
+   ```
+3. Answer the questions and review generated documentation
 
 ## Your First Project (5 minutes)
 
@@ -214,7 +237,7 @@ Absolutely! All generated docs are meant to be reviewed and refined by you.
 Just edit the document or tell the agent when it asks. You're in control.
 
 ### "Can I use this with existing projects?"
-Yes! Run `/rumiator-init` in your existing project. You can document existing features retroactively or use it only for new features.
+Yes! Use `/rumiator-use-into-existing-project` to analyze your codebase and generate documentation based on what you've already built. Or use `/rumiator-init` if you only want to use Rumiator for new features going forward.
 
 ---
 

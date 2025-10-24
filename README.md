@@ -6,6 +6,8 @@ Rumiator helps you build software projects systematically by combining specializ
 
 ## Quick Start
 
+### For New Projects
+
 ```bash
 # 1. Initialize your project
 /rumiator-init
@@ -25,6 +27,17 @@ Rumiator helps you build software projects systematically by combining specializ
 
 # 6. Monitor progress
 /rumiator-status
+```
+
+### For Existing Projects
+
+```bash
+# 1. Initialize and analyze existing codebase
+/rumiator-use-into-existing-project
+
+# 2. Review and refine generated documentation
+# 3. Continue with development workflow
+/rumiator-develop-next
 ```
 
 ## Features
@@ -52,6 +65,7 @@ Rumiator helps you build software projects systematically by combining specializ
 | Command | Purpose |
 |---------|---------|
 | `/rumiator-init` | Initialize project structure |
+| `/rumiator-use-into-existing-project` | Integrate Rumiator into existing project |
 | `/rumiator-create-product` | Create product plan from idea |
 | `/rumiator-update-plan` | Update product plan |
 | `/rumiator-create-tasks` | Generate tasks from plan |
@@ -140,6 +154,31 @@ Topics covered:
 - Best practices
 - Customization guide
 - FAQ
+
+## Installation
+
+### Quick Setup with Bash Alias
+
+Add this alias to your `~/.bashrc` or `~/.zshrc`:
+
+```bash
+# Replace /path/to/rumiator with the actual path where you cloned this repo
+alias init-rumiator='mkdir -p .claude && mkdir -p .rumiator && cp -rf /path/to/rumiator/.claude/* .claude/ && cp -rf /path/to/rumiator/.rumiator/* .rumiator/'
+```
+
+Then, in any project directory:
+
+```bash
+init-rumiator  # Copies all Rumiator files to current project
+```
+
+### Manual Installation
+
+```bash
+# From this repository directory:
+cp -r .claude /path/to/your/project/
+cp -r .rumiator /path/to/your/project/
+```
 
 ## Requirements
 

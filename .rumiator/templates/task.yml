@@ -1,5 +1,6 @@
 # Task Template
 id: TASK-XXX
+type: feature  # feature | bug | architecture-review
 title: ""
 feature: ""
 status: draft
@@ -7,6 +8,21 @@ priority: medium  # low | medium | high | critical
 iteration: 1
 created: ""
 updated: ""
+
+# Bug-specific information (only for type: bug)
+bug_info:
+  related_tasks: []  # List of TASK-IDs related to this bug
+  root_cause: ""
+  severity: medium  # low | medium | high | critical
+  steps_to_reproduce: ""
+  expected_behavior: ""
+  actual_behavior: ""
+
+# Architecture review information (only for type: architecture-review)
+architecture_review:
+  related_adr: ""  # ADR being reviewed/superseded
+  affected_tasks: []  # Tasks affected by architecture change
+  reason: ""
 
 # Analysis
 business_analyst: null
@@ -24,3 +40,5 @@ notes: ""
 # References
 functional_spec: ""
 technical_spec: ""
+related_bugs: []  # List of bug TASK-IDs related to this task
+related_adrs: []  # List of ADRs referenced in technical spec

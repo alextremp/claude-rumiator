@@ -35,6 +35,8 @@ Rumiator helps you build software projects systematically by combining specializ
 ✅ **Iterative development** - Small, manageable iterations
 ✅ **Progress tracking** - Visual dashboards and reports
 ✅ **Decision transparency** - All choices documented
+✅ **Bug tracking & management** - Track bugs alongside features
+✅ **Architecture evolution** - Review and update architectural decisions
 ✅ **You're in control** - Agents ask before important decisions
 
 ## Architecture
@@ -49,20 +51,46 @@ Rumiator helps you build software projects systematically by combining specializ
 - **quality-assurance** - Testing and validation
 
 ### Commands (Workflows)
+
+**Planning & Setup**
 | Command | Purpose |
 |---------|---------|
 | `/rumiator-init` | Initialize project structure |
 | `/rumiator-create-product` | Create product plan from idea |
 | `/rumiator-update-plan` | Update product plan |
 | `/rumiator-create-tasks` | Generate tasks from plan |
+
+**Analysis & Design**
+| Command | Purpose |
+|---------|---------|
 | `/rumiator-analyze-business` | Create functional specs |
 | `/rumiator-analyze-tech` | Create technical specs |
-| `/rumiator-develop` | Implement a task |
+| `/rumiator-adr` | Create architecture decision record |
+
+**Development**
+| Command | Purpose |
+|---------|---------|
+| `/rumiator-develop` | Implement a task (feature, bug, or review) |
 | `/rumiator-develop-next` | Auto-select and develop next task |
-| `/rumiator-status` | Show project dashboard |
+
+**Bug Management**
+| Command | Purpose |
+|---------|---------|
+| `/rumiator-create-bug` | Create a bug report |
+| `/rumiator-triage-bugs` | Review and prioritize bugs |
+
+**Architecture Management**
+| Command | Purpose |
+|---------|---------|
+| `/rumiator-review-architecture` | Challenge and update architectural decisions |
+| `/rumiator-propagate-architecture-change` | Update tasks affected by architecture changes |
+
+**Monitoring & Reporting**
+| Command | Purpose |
+|---------|---------|
+| `/rumiator-status` | Show project dashboard (features, bugs, reviews) |
 | `/rumiator-report` | Generate iteration report |
 | `/rumiator-block-task` | Mark task as blocked |
-| `/rumiator-adr` | Create architecture decision record |
 
 ## Project Structure
 
@@ -70,13 +98,28 @@ Rumiator helps you build software projects systematically by combining specializ
 your-project/
 ├── .rumiator/
 │   ├── config.yml              # Configuration
-│   ├── tasks/                  # Task definitions
+│   ├── tasks/                  # Task definitions (features, bugs, reviews)
+│   │   ├── TASK-001.yml        # type: feature
+│   │   ├── TASK-015.yml        # type: bug
+│   │   └── TASK-040.yml        # type: architecture-review
 │   └── templates/              # Document templates
 ├── docs/
 │   ├── product/                # Product plan, architecture
 │   ├── features/               # Functional & technical specs
+│   │   └── [feature]/
+│   │       ├── functional.md
+│   │       ├── technical.md
+│   │       └── bugs/           # Bug analysis documents
 │   ├── adr/                    # Architecture decisions
-│   └── iterations/             # Iteration reports
+│   │   └── reviews/            # Architecture review documents
+│   └── iterations/             # Iteration reports & plans
+│       ├── iteration-01/       # Current iteration
+│       │   ├── plan.md
+│       │   ├── report.md
+│       │   ├── bug-triage-report.md
+│       │   └── architecture-change-*.md
+│       └── iteration-02/       # Future iterations
+│           └── ...
 └── src/                        # Source code
 ```
 

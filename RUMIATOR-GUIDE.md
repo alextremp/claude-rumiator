@@ -463,6 +463,355 @@ functional_spec: "docs/features/auth/functional.md"
 technical_spec: "docs/features/auth/technical.md"
 ```
 
+## 🐛 Bug Management
+
+Rumiator now includes comprehensive bug tracking that integrates seamlessly with your feature development workflow.
+
+### Creating Bug Reports
+
+When you discover a bug during development or testing:
+
+```bash
+/rumiator-create-bug TASK-001
+```
+
+Or create a standalone bug:
+```bash
+/rumiator-create-bug
+```
+
+The system will:
+1. Ask for bug details (severity, steps to reproduce, expected vs actual behavior)
+2. Create a bug task (type: bug) with unique TASK-ID
+3. Determine iteration placement based on severity:
+   - **Critical/High**: Added to current iteration immediately
+   - **Medium**: Added to current iteration
+   - **Low**: Added to backlog (next iteration)
+4. Link bug to related feature tasks if applicable
+5. Create bug analysis document in `docs/features/[feature]/bugs/`
+6. Launch functional-analyst to analyze root cause
+
+**Bug Task Example:**
+```yaml
+id: TASK-015
+type: bug
+title: "Login fails on Safari browser"
+feature: auth
+status: pending-technical-analysis
+priority: critical
+iteration: 1
+
+bug_info:
+  related_tasks: ["TASK-001"]
+  severity: critical
+  steps_to_reproduce: |
+    1. Open Safari browser
+    2. Navigate to /login
+    3. Enter valid credentials
+    4. Click login button
+  expected_behavior: "User should be logged in and redirected to dashboard"
+  actual_behavior: "Page refreshes but user remains on login page"
+  root_cause: "Cookie SameSite attribute not compatible with Safari"
+
+related_bugs: []
+related_adrs: []
+```
+
+### Triaging Bugs
+
+Periodically review all bugs to prioritize and plan fixes:
+
+```bash
+/rumiator-triage-bugs
+```
+
+The system will:
+1. Scan all bug tasks across iterations
+2. Group bugs by:
+   - Severity (critical/high/medium/low)
+   - Status (new/analyzed/ready/in-progress)
+   - Feature (identify patterns)
+   - Related tasks (impact analysis)
+3. Launch analyst + architect agents to:
+   - Identify architectural issues
+   - Spot patterns indicating deeper problems
+   - Recommend quick wins
+   - Suggest which bugs need architecture review
+4. Ask you to prioritize bugs for current iteration
+5. Update bug tasks with new priorities/iterations
+6. Create bug triage report in `docs/iterations/iteration-[XX]/bug-triage-report.md`
+   - Where XX is the current iteration number padded to 2 digits (01, 02, etc.)
+
+**Triage Output Example:**
+```
+Bug Triage Summary
+==================
+
+Total Bugs: 12
+- Critical: 2 (both in current iteration)
+- High: 3
+- Medium: 5
+- Low: 2
+
+Critical Bugs Requiring Attention:
+  🔴 TASK-015: Login fails on Safari (ready-to-fix)
+  🔴 TASK-022: Data loss on logout (needs-analysis)
+
+Architecture Issues Detected:
+  ⚠️ 3 bugs in 'auth' feature suggest session management issue
+  → Recommendation: Run /rumiator-review-architecture ADR-001
+
+Quick Wins (2 bugs, ~3 hours total):
+  TASK-018: Button alignment on mobile
+  TASK-019: Typo in error message
+```
+
+### Fixing Bugs
+
+Bugs are developed like regular tasks:
+
+```bash
+/rumiator-develop TASK-015
+```
+
+The system:
+1. Reads bug_info from task YAML
+2. Displays bug details and analysis
+3. Launches appropriate developer agent
+4. Developer agent:
+   - Fixes root cause (not just symptoms)
+   - Adds regression tests
+   - Verifies fix against acceptance criteria
+   - Updates bug analysis with resolution notes
+5. If bug reveals larger architectural issue:
+   - Suggests creating architecture-review task
+   - Links to relevant ADR
+
+**Bug Development Workflow:**
+```
+Bug Created → Analysis → Technical Spec → Fix → Test → Verify → Done
+     ↓                                                            ↓
+If architecture issue detected → Create architecture-review task
+```
+
+## 🏗️ Architecture Management
+
+Architecture decisions evolve as you learn more during development. Rumiator helps you review and update architectural decisions systematically.
+
+### When to Review Architecture
+
+Trigger an architecture review when:
+- Development reveals current approach is unworkable
+- Multiple bugs indicate architectural flaw
+- New requirements make current decision obsolete
+- Performance/scalability issues emerge
+- Technical debt becomes unsustainable
+
+### Reviewing Architectural Decisions
+
+```bash
+/rumiator-review-architecture ADR-001
+```
+
+Or scan for problems automatically:
+```bash
+/rumiator-review-architecture
+```
+
+The review process:
+
+**Phase 1: Identify the Problem**
+- System scans for blocked tasks and high-severity bugs
+- You specify which ADR to review
+- System asks: What's wrong with current approach?
+
+**Phase 2: Impact Analysis**
+- Finds all tasks referencing the ADR
+- Identifies affected technical specs
+- Groups tasks by status (done/in-progress/pending)
+- Estimates rework effort
+
+**Phase 3: Generate Alternatives**
+- Architect agent proposes 2-4 alternative approaches
+- For each alternative:
+  * How it solves the problem
+  * Migration path from current approach
+  * Impact on existing work
+  * Effort estimate
+  * Pros/cons vs original decision
+  * Risk assessment
+
+**Phase 4: Decision & Propagation**
+- You select preferred approach
+- System creates new ADR (ADR-XXX) superseding old one
+- Updates old ADR status to "Superseded by ADR-XXX"
+- Updates `docs/product/architecture.md`
+- Calls `/rumiator-propagate-architecture-change` automatically
+
+**Example ADR Supersession:**
+
+*Old ADR (ADR-001):*
+```markdown
+# ADR-001: Use MongoDB for data storage
+
+⚠️ SUPERSEDED by ADR-005 on 2025-10-15
+See ADR-005 for current decision.
+
+**Status**: Superseded
+**Date**: 2025-10-01
+
+## Decision
+Use MongoDB as primary database...
+
+## Consequences
+- NoSQL flexibility
+- Horizontal scaling
+...
+```
+
+*New ADR (ADR-005):*
+```markdown
+# ADR-005: Migrate to PostgreSQL with JSONB
+
+**Status**: Accepted
+**Date**: 2025-10-15
+**Supersedes**: ADR-001
+**Deciders**: Tech Lead, Architect
+
+## Context
+During development of TASK-015 and TASK-020, we discovered:
+- Need for complex relational queries (ADR-001 assumed simple docs)
+- ACID transactions critical for payment processing
+- MongoDB's transaction model causing race conditions
+- Team has stronger PostgreSQL expertise
+
+## Decision
+Migrate from MongoDB (ADR-001) to PostgreSQL with JSONB columns.
+Preserve flexibility where needed via JSONB, gain relational power.
+
+## Consequences
+
+### Positive
+- ACID transactions solve race conditions
+- Complex joins now possible
+- Better tooling and team expertise
+- JSONB provides schema flexibility where needed
+
+### Negative
+- Migration effort: ~2 weeks
+- 5 completed tasks need schema updates
+- Learning curve for JSONB features
+
+## Alternatives Considered
+1. **Stick with MongoDB**: Rejected - race conditions unacceptable
+2. **Use MySQL**: Rejected - no JSONB equivalent, less flexible
+3. **Use both (polyglot)**: Rejected - operational complexity too high
+
+## Migration Plan
+See architecture-change-ADR-005.md for detailed migration steps
+```
+
+### Propagating Architecture Changes
+
+After an ADR is updated:
+
+```bash
+/rumiator-propagate-architecture-change ADR-005
+```
+
+The system:
+
+**Phase 1: Discover Affected Components**
+- Scans technical specs for ADR references
+- Finds tasks with related_adrs containing old ADR
+- Uses architect to identify implicit dependencies
+- Creates comprehensive impact report
+
+**Phase 2: Categorize Impact**
+- **Completed tasks** (status: done):
+  * Creates architecture-review tasks
+  * You decide: review now vs later
+- **In-progress tasks**:
+  * Asks: Pause and redesign? Or continue and refactor later?
+  * Updates task status accordingly
+- **Ready-for-development tasks**:
+  * Asks: Update specs now or on-demand?
+  * Architect updates technical specs with new approach
+- **Pending-analysis tasks**:
+  * Adds notes to use new ADR during analysis
+  * No immediate action needed
+
+**Phase 3: Execute Updates**
+- Creates architecture-review tasks for completed work
+- Blocks in-progress tasks if needed
+- Updates technical specs for ready tasks
+- Adds ADR references to pending tasks
+- Updates all task YAMLs with related_adrs
+
+**Phase 4: Documentation**
+- Read current iteration number from .rumiator/config.yml
+- Create iteration directory if needed: docs/iterations/iteration-[XX]/
+- Creates `docs/iterations/iteration-[XX]/architecture-change-ADR-XXX.md`
+  - Where XX is the current iteration number padded to 2 digits (01, 02, etc.)
+- Documents all changes made
+- Lists affected tasks with recommended actions
+- Provides team communication template
+- Updates iteration plan
+
+**Architecture Review Task Example:**
+```yaml
+id: TASK-040
+type: architecture-review
+title: "Review User Auth implementation against ADR-005"
+status: pending-technical-analysis
+priority: high
+iteration: 2
+
+architecture_review:
+  related_adr: "ADR-005"
+  affected_tasks: ["TASK-001", "TASK-012"]
+  reason: "ADR-005 supersedes ADR-001 - need to migrate from MongoDB to PostgreSQL"
+
+notes: |
+  Original tasks used MongoDB. Need to:
+  1. Assess current implementation
+  2. Plan migration to PostgreSQL
+  3. Decide: refactor now or create new task
+```
+
+### Verifying ADRs During Technical Analysis
+
+The `/rumiator-analyze-tech` command now automatically verifies ADRs:
+
+```bash
+/rumiator-analyze-tech TASK-025
+```
+
+After creating the technical spec:
+1. System scans spec for ADR references
+2. Reads each referenced ADR
+3. Checks ADR status field
+4. If status is "Superseded":
+   ```
+   ⚠️ WARNING: Architecture Decision Outdated
+
+   Technical spec references ADR-001 which has been SUPERSEDED
+   Old ADR: ADR-001 - MongoDB for data storage
+   Status: Superseded by ADR-005
+   New ADR: ADR-005 - PostgreSQL with JSONB
+
+   Options:
+   1. Update spec now to use ADR-005 (recommended)
+   2. Review architecture: /rumiator-review-architecture ADR-001
+   3. Proceed anyway (not recommended - may cause rework)
+   ```
+5. Based on your choice:
+   - Updates spec with new ADR
+   - Pauses analysis for architecture review
+   - Or proceeds with warning
+
+This prevents implementing tasks with outdated architecture decisions.
+
 ## 🛠️ Customization
 
 ### Modify Agent Behavior

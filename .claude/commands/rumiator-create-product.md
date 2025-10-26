@@ -30,9 +30,18 @@ Prerequisites:
      * Initial risks with mitigation strategies
      * Legal & compliance considerations
      * Success criteria
-   - Update .rumiator/config.yml with iteration count
-5. Display a summary of the product plan to the user
-6. Ask if they want to proceed with creating tasks for the first iteration
+   - Update .rumiator/config.yml with iteration count (iterations.total)
+5. Read current iteration number from .rumiator/config.yml (iterations.current)
+6. Update docs/iterations/iteration-[XX]/plan.md with iteration goals from product plan:
+   - Extract goals for current iteration from product-plan.md
+   - Update the plan.md file with:
+     * Status: "Planning" → "In Progress"
+     * Start Date: current date
+     * End Date: estimated (based on velocity or default 2 weeks)
+     * Goals: from product plan iteration breakdown
+     * Scope: will be filled by /rumiator-create-tasks
+7. Display a summary of the product plan to the user
+8. Ask if they want to proceed with creating tasks for the first iteration
 
 Next steps suggestion:
 - Review the product plan and make manual edits if needed

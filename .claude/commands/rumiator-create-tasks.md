@@ -30,7 +30,12 @@ Prerequisites:
    - Create additional tasks
    - Update the count
 8. Update all created tasks to status "pending-business-analysis"
-9. Display next steps:
+9. Read current iteration number from .rumiator/config.yml (iterations.current)
+10. Update docs/iterations/iteration-[XX]/plan.md:
+    - Add list of created tasks to "Tasks" section
+    - Update "Scope" section with summary of features
+    - Keep status as "In Progress"
+11. Display next steps:
    - Run /rumiator-analyze-business to create functional specifications
    - Or run /rumiator-analyze-business [task-id] for a specific task
 

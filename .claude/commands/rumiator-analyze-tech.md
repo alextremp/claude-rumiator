@@ -39,12 +39,52 @@ Prerequisites:
       - Update docs/product/architecture.md with new components/flows
       - If significant architectural decision, create ADR in docs/adr/
       - If the architect has questions about technology choices, ask the user
-      - Update task YAML:
-        * status: "ready-for-development"
-        * architect: "architect"
-        * technical_spec: path to technical.md
-        * estimated_complexity: low|medium|high
-        * updated: current date
+   c. **VERIFY ARCHITECTURAL DECISIONS** (Critical Step):
+      - After technical spec is created, scan it for ADR references
+      - For each referenced ADR:
+        * Read the ADR file
+        * Check its status field
+        * If status is "Superseded" or "Superseded by ADR-XXX":
+          ⚠️ WARN USER IMMEDIATELY:
+          ```
+          ⚠️ WARNING: Architecture Decision Outdated
+
+          Technical spec references ADR-XXX which has been SUPERSEDED
+          Old ADR: ADR-XXX - [Title]
+          Status: Superseded by ADR-YYY
+          New ADR: ADR-YYY - [New Title]
+
+          This task may be using an outdated architectural approach.
+
+          Options:
+          1. Update spec now to use ADR-YYY (recommended)
+          2. Review architecture: /rumiator-review-architecture ADR-XXX
+          3. Proceed anyway (not recommended - may cause rework)
+
+          What would you like to do?
+          ```
+        * If user chooses to update spec:
+          - Launch architect again to revise spec with new ADR
+          - Update task YAML to reference new ADR
+          - Add note about architecture update
+        * If user chooses to review architecture:
+          - Pause this analysis
+          - Suggest running /rumiator-review-architecture ADR-XXX
+          - Keep task status as "pending-technical-analysis"
+          - Exit this command
+        * If user proceeds anyway:
+          - Add warning to task YAML notes
+          - Mark task with high risk
+          - Continue normally
+      - If all ADRs are current (status: "Accepted" or "Proposed"):
+        ✓ Continue normally
+   d. Update task YAML:
+      - status: "ready-for-development" (or "pending-architecture-review" if issues found)
+      - architect: "architect"
+      - technical_spec: path to technical.md
+      - estimated_complexity: low|medium|high
+      - related_adrs: [list of ADR-XXX referenced in spec]
+      - updated: current date
 3. Display summary for each analyzed task:
    - Task ID and title
    - Complexity estimate

@@ -15,7 +15,7 @@ Initialize a new Rumiator project with the complete directory structure and conf
    - docs/product/
    - docs/adr/
    - docs/features/
-   - docs/iterations/
+   - docs/iterations/iteration-01/
    - docs/devops/
 3. Copy .rumiator/config.yml.template to .rumiator/config.yml
 4. Ask the user for basic project information:
@@ -23,10 +23,27 @@ Initialize a new Rumiator project with the complete directory structure and conf
    - Brief description
    - Preferred tech stack (if known)
 5. Update .rumiator/config.yml with the provided information and current date
-6. Create a README.md with project structure explanation if it doesn't exist
-7. Create a .gitignore if it doesn't exist, ensuring it includes:
+6. Create initial iteration plan file: docs/iterations/iteration-01/plan.md with template:
+   ```markdown
+   # Iteration 01 Plan
+
+   **Status**: Planning
+   **Start Date**: TBD
+   **End Date**: TBD
+
+   ## Goals
+   To be defined by /rumiator-create-product
+
+   ## Scope
+   To be defined by /rumiator-create-tasks
+
+   ## Tasks
+   None yet - run /rumiator-create-tasks to generate
+   ```
+7. Create a README.md with project structure explanation if it doesn't exist
+8. Create a .gitignore if it doesn't exist, ensuring it includes:
    - repositories/*
-8. Display a success message with next steps:
+9. Display a success message with next steps:
    - Run /rumiator-create-product to start planning your product
    - Or manually create docs/product/product-idea.md with your vision
 

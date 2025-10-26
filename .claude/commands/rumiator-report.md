@@ -18,7 +18,9 @@ Generate a comprehensive progress report for the current iteration.
    - Complexity delivered (sum of completed task complexities)
    - Blockers encountered and resolved
    - Quality metrics (if QA was performed)
-5. Generate report document at docs/iterations/iteration-[X]-report.md:
+5. Create iteration directory if it doesn't exist: docs/iterations/iteration-[XX]/
+   - Where XX is the current iteration number (padded to 2 digits: 01, 02, etc.)
+6. Generate report document at docs/iterations/iteration-[XX]/report.md:
 
 ```markdown
 # Iteration [X] Progress Report
@@ -77,12 +79,12 @@ Generate a comprehensive progress report for the current iteration.
 - Focus areas: [Based on learnings]
 ```
 
-6. Display summary to user:
+7. Display summary to user:
    - Completion percentage
    - Highlight achievements
    - Note any concerns
    - Suggest actions for next iteration
-7. Ask if user wants to:
+8. Ask if user wants to:
    - Review the full report
    - Plan next iteration
    - Address blockers

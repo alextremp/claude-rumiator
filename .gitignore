@@ -1,8 +1,8 @@
 # Rumiator - Repositories folder
 
 # Repositories structure
-!repositories/.gitkeep
 repositories/*
+!repositories/.gitkeep
 
 # Local Claude files
 .claude/settings.local.json

@@ -56,6 +56,7 @@ Rumiator helps you build software projects systematically by combining specializ
 | Command | Purpose |
 |---------|---------|
 | `/rumiator-init` | Initialize project structure |
+| `/rumiator-update` | Update to latest Rumiator version |
 | `/rumiator-create-product` | Create product plan from idea |
 | `/rumiator-update-plan` | Update product plan |
 | `/rumiator-create-tasks` | Generate tasks from plan |
@@ -188,6 +189,33 @@ Topics covered:
 
 - **Claude Code** (with agent and command support)
 - Git repository (recommended)
+
+## Version Management
+
+Rumiator uses semantic versioning and supports automatic updates:
+
+### Checking Your Version
+Your Rumiator version is stored in `.rumiator/config.yml` under `rumiator_version`
+
+### Updating Rumiator
+```bash
+/rumiator-update
+```
+
+This command will:
+1. Clone/update the official repository to `repositories/claude-rumiator/`
+2. Compare your version with the latest available
+3. Apply necessary migrations automatically
+4. Update your project structure and configuration
+
+### Version History
+See [CHANGELOG.md](./CHANGELOG.md) for detailed version history and migration instructions.
+
+### Manual Updates
+If automatic update fails, you can:
+1. Check `repositories/claude-rumiator/CHANGELOG.md` for migration steps
+2. Manually update your `.rumiator/` directory
+3. Update `rumiator_version` in your `config.yml`
 
 ## Benefits
 

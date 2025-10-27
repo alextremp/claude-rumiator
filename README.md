@@ -56,6 +56,7 @@ Rumiator helps you build software projects systematically by combining specializ
 | Command | Purpose |
 |---------|---------|
 | `/rumiator-init` | Initialize project structure |
+| `/rumiator-update` | Update to latest Rumiator version |
 | `/rumiator-create-product` | Create product plan from idea |
 | `/rumiator-update-plan` | Update product plan |
 | `/rumiator-create-tasks` | Generate tasks from plan |
@@ -188,6 +189,56 @@ Topics covered:
 
 - **Claude Code** (with agent and command support)
 - Git repository (recommended)
+
+## Version Management
+
+Rumiator uses semantic versioning and supports automatic updates:
+
+### Checking Your Version
+Your Rumiator version is stored in `.rumiator/config.yml` under `rumiator_version`
+
+### Updating Rumiator
+```bash
+/rumiator-update
+```
+
+This command will:
+1. Clone/update the official repository to `repositories/claude-rumiator/`
+2. Compare your version with the latest available
+3. Apply necessary migrations automatically
+4. Update your project structure and configuration
+
+### Version History
+See [RUMIATOR_CHANGELOG.md](./RUMIATOR_CHANGELOG.md) for detailed version history and migration instructions.
+
+### Manual Updates
+If automatic update fails, you can:
+1. Check `repositories/claude-rumiator/RUMIATOR_CHANGELOG.md` for migration steps
+2. Manually update your `.rumiator/` directory
+3. Update `rumiator_version` in your `config.yml`
+
+### For Maintainers: Creating a Release
+
+Use the `/rumiator-workflow-pr` command to create a release:
+
+```bash
+/rumiator-workflow-pr
+```
+
+This command will:
+1. Analyze all changes since the last release
+2. Automatically detect new commands, templates, and config changes
+3. Generate migration actions based on detected changes
+4. Ask you a few questions (version type, summary, etc.)
+5. Update RUMIATOR_CHANGELOG.md and config.yml.template
+6. Commit changes and create a PR
+
+Then:
+1. Review and merge the PR
+2. Create a git tag: `git tag -a v1.x.x -m "Release v1.x.x" && git push origin v1.x.x`
+3. Create a GitHub Release from the tag
+
+**Much easier than writing CHANGELOG manually!** 🎉
 
 ## Benefits
 

@@ -10,7 +10,7 @@ Update the current Rumiator project to the latest version from the official repo
 This command updates the project to the latest Rumiator version by:
 1. Cloning/updating the official repository
 2. Comparing versions
-3. Applying migrations from CHANGELOG.md
+3. Applying migrations from RUMIATOR_CHANGELOG.md
 
 ## Steps
 
@@ -43,7 +43,7 @@ b. Compare versions using semantic versioning:
 
 ### 4. Read and Parse CHANGELOG
 
-a. Read `repositories/claude-rumiator/CHANGELOG.md`
+a. Read `repositories/claude-rumiator/RUMIATOR_CHANGELOG.md`
 
 b. Extract all versions between current and latest (inclusive of latest, exclusive of current)
    - Example: If current is 1.0.0 and latest is 1.2.0, get migrations for 1.1.0 and 1.2.0
@@ -59,7 +59,7 @@ a. Display to user:
    Applying migration to version X.Y.Z...
    ```
 
-b. Parse the migration section in CHANGELOG.md for this version
+b. Parse the migration section in RUMIATOR_CHANGELOG.md for this version
 
 c. Execute migration actions based on type:
 
@@ -154,7 +154,7 @@ Create a migration log at `.rumiator/migration-log.txt`:
 ## Error Handling
 
 - **Git errors**: Provide clear instructions to resolve (clean repo, check connection, etc.)
-- **Parse errors**: If CHANGELOG format is invalid, inform user and abort
+- **Parse errors**: If RUMIATOR_CHANGELOG format is invalid, inform user and abort
 - **File errors**: If files are missing or permissions denied, provide helpful message
 - **Version conflicts**: If version numbers don't make sense, warn user
 

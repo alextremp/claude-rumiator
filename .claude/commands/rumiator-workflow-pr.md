@@ -16,12 +16,14 @@ This command automates the release process by:
 
 ### 1. Validate Environment
 
-a. Check if we're in the claude-rumiator repository:
-   - Check if `RUMIATOR_CHANGELOG.md` exists in the root
-   - Check if `.claude/commands/rumiator-init.md` exists
-   - If either file doesn't exist, inform user this command only works in the rumiator repository and exit
+a. Check if we're in the claude-rumiator development repository (not a project using rumiator):
+   - Check if `.rumiator/config.yml` does NOT exist (only template should exist)
 
-   Note: This validation works with forks too, since it checks for rumiator-specific files rather than git remote
+   If validation fails, inform user:
+   - If `.rumiator/config.yml` exists: "This appears to be a project using rumiator, not the rumiator repository itself. This command is only for rumiator maintainers."
+   - Otherwise: "Could not find rumiator repository structure. This command only works in the claude-rumiator repository."
+
+   Note: This validation works with forks too, distinguishing the rumiator repo from projects using rumiator
 
 b. Get current branch:
    ```bash
@@ -397,13 +399,23 @@ Users can then update with: /rumiator-update
 ## Error Handling
 
 **Not in rumiator repository**:
+
+If `.rumiator/config.yml` exists:
+```
+❌ Error: This appears to be a project using rumiator, not the rumiator repository itself.
+
+This command is only for rumiator maintainers creating new releases.
+
+If you want to update your project to the latest rumiator version, use:
+  /rumiator-update
+```
+
+Otherwise:
 ```
 ❌ Error: This command only works in the claude-rumiator repository.
 
-Could not find RUMIATOR_CHANGELOG.md or rumiator commands in this directory.
-
-This command is for rumiator maintainers creating new releases.
-If you're using rumiator in your project, you don't need this command.
+Could not find the expected rumiator development structure.
+This command is for maintainers creating rumiator releases.
 ```
 
 **On master branch**:

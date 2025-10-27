@@ -147,18 +147,16 @@ Based on detected changes, auto-generate migration actions:
 
 **For config changes**:
 Try to detect new fields by comparing old and new versions:
+
+- **Note:** Config files may contain complex nested structures or arrays. New fields can be added at any depth, not just the top level.
+- Use a YAML-aware diff tool or script to recursively compare the old and new config files. This helps detect additions inside nested objects or arrays.
+- When generating migration actions, specify the full path to the new field using dot notation (e.g., `parent.child.new_field`) or array indices as appropriate (e.g., `items[2].subfield`).
+- For example, if a new field is added under `notifications.email.enabled`, the path would be `notifications.email.enabled`.
+
+Example diff:
 ```bash
 git show v{last_version}:.rumiator/config.yml.template > /tmp/old_config.yml
 diff -u /tmp/old_config.yml .rumiator/config.yml.template
-```
-
-For each new field detected:
-```yaml
-- type: "add_field"
-  file: ".rumiator/config.yml"
-  path: "{field_path}"
-  value: {default_value}
-  description: "Add {field_name} setting"
 ```
 
 ### 6. Suggest Version Type

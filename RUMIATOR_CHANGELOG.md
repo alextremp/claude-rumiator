@@ -13,6 +13,132 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.0.0] - 2025-11-01
+
+### Summary
+Simplified workflow integrating business requirements directly into task creation, reducing the process from 3 phases to 2. Technical specifications now provide high-level architectural guidance instead of detailed implementation, giving developers more autonomy.
+
+### Changed
+- Updated agent: `functional-analyst` - Now creates tasks with complete business requirements (summary, user stories, acceptance criteria) in single step
+- Updated agent: `architect` - Simplified to provide high-level technical guidance only (no code, APIs, or schemas)
+- Updated command: `/rumiator-analyze-tech` - Simplified workflow; only technical guidance phase remains
+- Updated command: `/rumiator-create-tasks` - Now includes business requirements collection; tasks created in `pending-technical-analysis` status
+- Updated template: `task.yml` - Added fields: `summary`, `user_stories`, `acceptance_criteria`
+- Updated template: `technical-spec.md` - Simplified format; removed API specs, data models, database schemas, and code examples
+- Documentation improvements: README, GETTING-STARTED, QUICK-REFERENCE, RUMIATOR-GUIDE, EXAMPLE-WALKTHROUGH, INDEX
+
+### Deprecated
+- Command: `/rumiator-analyze-business` - No longer needed; business requirements integrated into task creation
+- Separate functional spec files - Requirements now in task YAML
+- Detailed technical specs with code/APIs/schemas - Now high-level guidance only
+
+### Removed
+- Business analysis phase (integrated into task creation)
+- Functional spec documents (requirements now in task YAML)
+- Detailed technical specifications (now high-level guidance only)
+
+### Breaking Changes
+
+⚠️ **This is a MAJOR release with breaking changes**
+
+**What breaks:**
+- `/rumiator-analyze-business` command no longer works
+- Old workflow (3-phase) no longer supported
+- Tasks in `pending-business-analysis` or `draft` status need manual migration
+- Functional spec files no longer generated for new tasks
+- Technical specs no longer include implementation details
+
+**How to migrate:**
+
+For existing projects with tasks in progress:
+
+1. **Tasks in `pending-business-analysis`:**
+   - Add business requirements to task YAML manually:
+     ```yaml
+     summary: "Brief description..."
+     user_stories: ["As a...", ...]
+     acceptance_criteria: ["Must...", ...]
+     ```
+   - Change status to `pending-technical-analysis`
+
+2. **Tasks in `draft`:**
+   - Complete the business requirements
+   - Change status to `pending-technical-analysis`
+
+3. **Update workflows:**
+   - Remove `/rumiator-analyze-business` from scripts
+   - Use: `/rumiator-create-tasks` → `/rumiator-analyze-tech all`
+
+New projects automatically use the simplified workflow.
+
+### Migration Instructions
+- **Type**: `manual`
+- **Actions**:
+```yaml
+migrations:
+  - type: "message"
+    message: |
+      ⚠️ BREAKING CHANGE: Workflow simplified from 3 phases to 2 phases
+
+      **What changed:**
+      - `/rumiator-create-tasks` now collects business requirements directly
+      - Tasks are created in `pending-technical-analysis` status (not `draft`)
+      - `/rumiator-analyze-business` command is DEPRECATED (no longer needed)
+      - Business requirements (summary, user_stories, acceptance_criteria) are now in task YAML
+      - Technical specs provide high-level guidance only (no code/APIs/schemas)
+
+      **Migration for existing projects:**
+
+      1. **For tasks in `pending-business-analysis` status:**
+         - Manually add to task YAML:
+           * `summary`: Brief description of what the task accomplishes
+           * `user_stories`: List of user stories
+           * `acceptance_criteria`: Testable criteria
+         - Update status to `pending-technical-analysis`
+
+      2. **For tasks with functional specs:**
+         - Your existing functional specs remain valid
+         - New tasks will use the integrated approach
+
+      3. **Update your workflow:**
+         - OLD: `/rumiator-create-tasks` → `/rumiator-analyze-business all` → `/rumiator-analyze-tech all`
+         - NEW: `/rumiator-create-tasks` → `/rumiator-analyze-tech all`
+
+      4. **No action needed for:**
+         - Completed tasks
+         - Tasks in development
+         - Existing documentation
+
+  - type: "message"
+    message: |
+      📋 Template updates available (optional)
+
+      The following templates have been updated:
+      - `.rumiator/templates/task.yml` - Added business requirement fields
+      - `.rumiator/templates/technical-spec.md` - Simplified format
+
+      Existing projects keep their current templates.
+      New projects using `/rumiator-init` will get the updated templates.
+
+  - type: "message"
+    message: |
+      🤖 Agent behavior updated
+
+      **functional-analyst:**
+      - Now collects business requirements during task creation
+      - No longer creates separate functional spec files
+
+      **architect:**
+      - Provides high-level architectural guidance only
+      - Validates ADRs with user before proceeding
+      - No longer writes implementation details (APIs, schemas, code)
+
+      These changes happen automatically - no migration needed.
+```
+- **Description**: Major workflow simplification. Projects with tasks in progress require manual migration. See breaking changes section for details.
+
+---
+
 ## [1.0.0] - 2025-10-27
 
 ### Added

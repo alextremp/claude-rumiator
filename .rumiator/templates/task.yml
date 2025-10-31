@@ -9,6 +9,11 @@ iteration: 1
 created: ""
 updated: ""
 
+# Functional Information (filled during task creation)
+summary: ""  # Brief 3-5 line description of what this task accomplishes
+user_stories: []  # List of user stories: "As a [role], I want to [action], so that [benefit]"
+acceptance_criteria: []  # Specific, testable criteria that define when this task is complete
+
 # Bug-specific information (only for type: bug)
 bug_info:
   related_tasks: []  # List of TASK-IDs related to this bug
@@ -34,7 +39,6 @@ estimated_complexity: null  # low | medium | high
 
 # Status
 blockers: []
-acceptance_criteria: []
 notes: ""
 
 # References

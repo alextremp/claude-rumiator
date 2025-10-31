@@ -7,12 +7,13 @@ One-page cheat sheet for Rumiator commands and workflows.
 ```bash
 /rumiator-init                    # Initialize project
 /rumiator-create-product          # Create product plan
-/rumiator-create-tasks            # Generate tasks
-/rumiator-analyze-business all    # Create functional specs
-/rumiator-analyze-tech all        # Create technical specs
+/rumiator-create-tasks            # Generate tasks (with business requirements) ⚡
+/rumiator-analyze-tech all        # Create high-level technical guidance ⚡
 /rumiator-develop-next            # Auto-develop next task
 /rumiator-status                  # Show dashboard
 ```
+
+**⚡ New**: Business requirements integrated into task creation - faster workflow!
 
 ## 📊 Task Types & States
 
@@ -23,13 +24,15 @@ One-page cheat sheet for Rumiator commands and workflows.
 
 **Task States Flow:**
 ```
-draft → pending-business-analysis → pending-technical-analysis
-  → ready-for-development → in-progress → in-review → done
+pending-technical-analysis → ready-for-development
+  → in-progress → in-review → done
 
 Special states:
   → blocked (any point)
   → pending-architecture-review (when ADR changes)
 ```
+
+**⚡ Simplified**: No more draft or pending-business-analysis states!
 
 ## 🎯 Complete Workflow (30 seconds)
 
@@ -39,11 +42,10 @@ Special states:
 
 # Plan (start of project)
 /rumiator-create-product
-/rumiator-create-tasks
+/rumiator-create-tasks           # ⚡ Now includes business requirements
 
 # Analyze (before development)
-/rumiator-analyze-business all
-/rumiator-analyze-tech all
+/rumiator-analyze-tech all       # ⚡ Only technical guidance needed
 
 # Develop (repeat)
 /rumiator-develop-next
@@ -54,6 +56,8 @@ Special states:
 # Review (end of iteration)
 /rumiator-report
 ```
+
+**⚡ Faster**: 2-phase workflow instead of 3!
 
 ## 🛠️ All Commands
 
@@ -68,8 +72,8 @@ Special states:
 **Analysis & Design**
 | Command | When to Use | What It Does |
 |---------|-------------|--------------|
-| `/rumiator-analyze-business [id\|all]` | Before development | Creates functional specs |
-| `/rumiator-analyze-tech [id\|all]` | After business analysis | Creates technical specs (checks ADRs) |
+| `/rumiator-analyze-business [id\|all]` | ⚠️ DEPRECATED | No longer needed - requirements in task YAML |
+| `/rumiator-analyze-tech [id\|all]` | Before development | Creates high-level technical guidance (validates ADRs) ⚡ |
 | `/rumiator-adr [decision]` | For big tech decisions | Creates Architecture Decision Record |
 
 **Development**
@@ -102,8 +106,8 @@ Special states:
 | Agent | Role | Creates |
 |-------|------|---------|
 | project-manager | Strategy & planning | product-plan.md |
-| functional-analyst | Requirements | functional.md, tasks |
-| architect | Technical design | technical.md, architecture.md, ADRs |
+| functional-analyst | Requirements | Tasks with business requirements ⚡ |
+| architect | Technical guidance | technical.md (high-level), ADRs ⚡ |
 | developer-frontend | Frontend code | React/Vue/etc components + tests |
 | developer-backend | Backend code | APIs, services, DB + tests |
 | devops | Infrastructure | CI/CD, Docker, deployment |
@@ -122,8 +126,7 @@ docs/
     product-plan.md       → Full plan with iterations
     architecture.md       → System architecture
   features/[name]/
-    functional.md         → Business requirements
-    technical.md          → Technical design
+    technical.md          → High-level technical guidance ⚡
     bugs/                 → Bug analysis documents 🆕
       BUG-XXX-analysis.md
   adr/
@@ -166,15 +169,22 @@ feature: category
 status: ready-for-development
 priority: high                 # critical|high|medium|low
 iteration: 1
-estimated_complexity: medium   # low|medium|high
+
+# Functional Information (created during task creation) ⚡
+summary: "Brief 3-5 line description..."
+user_stories:
+  - "As a [role], I want to [action], so that [benefit]"
 acceptance_criteria:
   - "Criterion 1"
-functional_spec: "docs/features/[name]/functional.md"
+
+estimated_complexity: medium   # low|medium|high
 technical_spec: "docs/features/[name]/technical.md"
 related_adrs: ["ADR-001"]      # 🆕
 related_bugs: []               # 🆕
 blockers: []
 ```
+
+**⚡ New**: Business requirements now in task YAML!
 
 **Bug Task:** 🆕
 ```yaml
@@ -208,24 +218,24 @@ architecture_review:
 
 ## 🎨 Document Templates
 
-### Functional Spec Structure
-- Overview (3-5 lines)
-- Actors
+### Task YAML Structure ⚡
+- Summary (3-5 lines)
 - User Stories
-- Flows (Mermaid diagrams)
 - Acceptance Criteria (testable)
-- Dependencies
-- Business Decisions
+- ⚠️ Functional spec no longer needed!
 
-### Technical Spec Structure
+### Technical Spec Structure ⚡
 - Technology Stack
-- Architecture (Mermaid diagram)
-- API Endpoints (full spec)
-- Data Models (TypeScript/etc)
-- Database Schema
-- Security Considerations
+- Architecture Overview (Mermaid diagram)
+- Technical Considerations (high-level):
+  - Frontend: Design system, state management, routing
+  - Backend: API approach, business logic, data access
+  - Security: Auth, validation
+  - Performance: Caching, scaling
+- Architectural Decisions
 - Testing Strategy
 - Complexity Estimate
+- ⚠️ NO code, API specs, data models, or schemas!
 
 ### ADR Structure
 - Context (the problem)
@@ -240,10 +250,11 @@ architecture_review:
 ```bash
 /rumiator-init
 /rumiator-create-product
-/rumiator-create-tasks
-/rumiator-analyze-business all
-/rumiator-analyze-tech all
+/rumiator-create-tasks           # ⚡ Now includes business requirements
+/rumiator-analyze-tech all       # ⚡ Only technical guidance needed
 ```
+
+**⚡ Faster**: One less step!
 
 ### Daily Development
 ```bash
@@ -276,9 +287,9 @@ architecture_review:
 ✋ Blocked
 → Ready for Development
 📋 Pending Technical Analysis
-📝 Pending Business Analysis
-📄 Draft
 ```
+
+**⚡ Simplified**: No more draft or pending-business-analysis states!
 
 ## 🎯 Priority Levels
 
@@ -320,7 +331,7 @@ architecture_review:
 
 ### Full Analysis Pass
 ```bash
-/rumiator-analyze-business all && /rumiator-analyze-tech all
+/rumiator-analyze-tech all       # ⚡ Only one command needed now!
 ```
 
 ### Development Loop

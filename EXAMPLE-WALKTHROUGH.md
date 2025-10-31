@@ -95,9 +95,9 @@ y
 
 ---
 
-## Day 2: Task Creation & Business Analysis
+## Day 2: Task Creation with Business Requirements
 
-### Step 3: Create Tasks
+### Step 3: Create Tasks (with Business Requirements)
 
 ```bash
 /rumiator-create-tasks
@@ -106,60 +106,7 @@ y
 **Output:**
 ```
 Reading product plan for iteration 1...
-Creating tasks...
-
-✓ TASK-001: User Registration and Login
-  Feature: auth
-  Priority: high
-  Status: draft
-
-✓ TASK-002: Workspace Creation and Management
-  Feature: workspaces
-  Priority: high
-  Status: draft
-
-✓ TASK-003: Basic Task CRUD Operations
-  Feature: tasks
-  Priority: high
-  Status: draft
-
-✓ TASK-004: Task Assignment and Status Tracking
-  Feature: tasks
-  Priority: medium
-  Status: draft
-
-✓ TASK-005: Basic Dashboard UI
-  Feature: dashboard
-  Priority: medium
-  Status: draft
-
-✓ TASK-006: CI/CD Pipeline Setup
-  Feature: devops
-  Priority: high
-  Status: draft
-
-Created 6 tasks for iteration 1.
-
-> Are any obvious features missing? (describe or press Enter to continue)
-[Enter]
-
-Updating all tasks to "pending-business-analysis"...
-
-✓ Done! Run /rumiator-analyze-business all to create functional specs.
-```
-
-**Result:** 6 task YAML files created in `.rumiator/tasks/`
-
-### Step 4: Business Analysis
-
-```bash
-/rumiator-analyze-business all
-```
-
-**For TASK-001 (Auth):**
-```
-Analyzing TASK-001: User Registration and Login
-Launching functional-analyst agent...
+Creating tasks with business requirements...
 
 Agent: I need clarification on the authentication approach.
 
@@ -175,48 +122,76 @@ Question 3: Should we implement email verification on registration?
 
 > Yes, users must verify email before accessing the platform.
 
-Creating docs/features/auth/functional.md...
+✓ TASK-001: User Registration and Login
+  Feature: auth
+  Priority: high
+  Status: pending-technical-analysis
+  Summary: Enable users to register for an account using their email address...
+  User Stories: 4
+  Acceptance Criteria: 10
 
-✓ Functional spec created
-✓ Task updated to "pending-technical-analysis"
-
-Key acceptance criteria:
-- User can register with email, password, and name
-- Email must be verified via link sent to inbox
-- User can log in with verified credentials
-- User can request password reset via email
-- Password must be at least 8 characters with 1 number
-```
-
-**For TASK-002 (Workspaces):**
-```
-Analyzing TASK-002: Workspace Creation and Management
-
-Agent: Clarification needed.
-
-Question: Can a user belong to multiple workspaces?
+Agent: Can a user belong to multiple workspaces?
 
 > Yes, users can create or join multiple workspaces.
 
-Question: Who can invite new members to a workspace?
+✓ TASK-002: Workspace Creation and Management
+  Feature: workspaces
+  Priority: high
+  Status: pending-technical-analysis
+  Summary: Allow users to create workspaces for organizing their work...
+  User Stories: 5
+  Acceptance Criteria: 12
 
-> Only workspace owners and admins can invite members.
+✓ TASK-003: Basic Task CRUD Operations
+  Feature: tasks
+  Priority: high
+  Status: pending-technical-analysis
+  Summary: Implement core task management functionality...
+  User Stories: 4
+  Acceptance Criteria: 8
 
-Creating docs/features/workspaces/functional.md...
+✓ TASK-004: Task Assignment and Status Tracking
+  Feature: tasks
+  Priority: medium
+  Status: pending-technical-analysis
 
-✓ Functional spec created
-✓ Task updated to "pending-technical-analysis"
+✓ TASK-005: Basic Dashboard UI
+  Feature: dashboard
+  Priority: medium
+  Status: pending-technical-analysis
+
+✓ TASK-006: CI/CD Pipeline Setup
+  Feature: devops
+  Priority: high
+  Status: pending-technical-analysis
+
+Created 6 tasks for iteration 1.
+
+Priority breakdown:
+- High: 3
+- Medium: 3
+
+> Are any obvious features missing? (describe or press Enter to continue)
+[Enter]
+
+✓ All tasks created successfully!
+
+Next steps:
+→ Run `/rumiator-analyze-tech all` to create technical specifications
+
+Note: Tasks already include business requirements (summary, user stories, acceptance criteria).
+The architect will now analyze technical approach and architectural impact.
 ```
 
-**...continues for all tasks...**
+**Result:** 6 task YAML files created with complete business requirements
 
-**Result:** All 6 tasks now have functional specs and are ready for technical analysis.
+**⚡ What changed:** Business analysis is now integrated into task creation - one step instead of two!
 
 ---
 
-## Day 3: Technical Analysis
+## Day 3: Technical Guidance (Not Implementation)
 
-### Step 5: Technical Analysis
+### Step 4: Get Technical Guidance
 
 ```bash
 /rumiator-analyze-tech all
@@ -225,55 +200,71 @@ Creating docs/features/workspaces/functional.md...
 **For TASK-001 (Auth):**
 ```
 Analyzing TASK-001: User Registration and Login
-Launching architect agent...
+→ Reading business requirements from task YAML...
+→ Understanding current architecture...
+→ Evaluating if ADR is needed...
 
-Agent: Tech stack confirmation.
+Agent: This task introduces authentication to the system.
+Should I create an ADR for the authentication approach (JWT vs Session-based)?
 
-Question: For JWT tokens, what's the preferred expiry time?
+> Yes, please create an ADR for JWT-based authentication
 
-> Access token: 15 minutes, Refresh token: 7 days
+Creating ADR-001: JWT-based Authentication
+→ Title: Use JWT tokens with refresh token rotation
+→ Decision: JWT for stateless authentication
+→ Alternatives: Session-based, OAuth only
 
-Question: Should we use bcrypt or argon2 for password hashing?
+> Please review this ADR. Proceed? (y/n)
+y
 
-> bcrypt is fine for MVP.
+✓ ADR-001 validated and saved
+→ Creating technical specification...
+→ Updating architecture.md...
 
-Creating docs/features/auth/technical.md...
-Updating docs/product/architecture.md...
-
-✓ Technical spec created
-✓ Architecture diagram updated
+✓ Technical spec created at docs/features/auth/technical.md
 ✓ Task updated to "ready-for-development"
-✓ Complexity estimate: Medium
+✓ Complexity: Medium
 
-API endpoints defined:
-- POST /api/auth/register
-- POST /api/auth/login
-- POST /api/auth/refresh
-- POST /api/auth/forgot-password
-- POST /api/auth/reset-password
-- GET /api/auth/verify-email/:token
+Technologies identified:
+- Frontend: React Context for auth state, TanStack Query
+- Backend: JWT with bcrypt for password hashing
+- Database: PostgreSQL with indexes on email
 
-Data models: User, RefreshToken, EmailVerification
-Database tables: users, refresh_tokens, email_verifications
+Technical considerations documented:
+- Design system: Use existing Form, Input, Button components
+- State management: React Context for auth state
+- Security: bcrypt (12 rounds), JWT short-lived tokens
+- Performance: Cache user session data
 ```
+
+**⚡ What changed:** Technical spec now provides HIGH-LEVEL guidance only (no API specs, data models, or SQL schemas)!
 
 **For TASK-002 (Workspaces):**
 ```
 Analyzing TASK-002: Workspace Creation and Management
+→ Reading business requirements...
+→ Understanding current architecture...
 
-Agent: I recommend creating an ADR for multi-tenancy approach.
+Agent: This introduces multi-tenant architecture.
+Should I create an ADR for multi-tenant data isolation?
 
-> Yes, please create one.
+> Yes, please
 
-Creating ADR-001: Multi-tenant Data Isolation Strategy...
-Creating docs/features/workspaces/technical.md...
+Creating ADR-002: Multi-tenant Data Isolation Strategy...
+→ Decision: Row-level isolation with workspace_id in all tables
 
-✓ Technical spec created
-✓ ADR-001 created at docs/adr/ADR-001-multi-tenancy.md
+> Review ADR-002. Proceed? (y/n)
+y
+
+✓ ADR-002 validated and saved
+✓ Technical spec created at docs/features/workspaces/technical.md
 ✓ Task updated to "ready-for-development"
-✓ Complexity estimate: High
+✓ Complexity: High (multi-tenant architecture)
 
-Reason for High: Multi-tenant architecture, role-based access control
+Technologies identified:
+- Frontend: Design system Table and Form components
+- Backend: Multi-tenant data isolation pattern
+- Database: PostgreSQL with workspace_id in all tables
 ```
 
 **...continues for all tasks...**
@@ -282,13 +273,21 @@ Reason for High: Multi-tenant architecture, role-based access control
 ```
 All 6 tasks analyzed!
 
-Complexity breakdown:
-- Low: 1 (TASK-005: Dashboard UI)
-- Medium: 3 (TASK-001, TASK-003, TASK-004)
-- High: 2 (TASK-002, TASK-006)
+Summary:
+- Tasks analyzed: 6
+- Complexity: 1 low, 3 medium, 2 high
+- ADRs created: 2 (ADR-001, ADR-002)
+- Ready for development: 6
 
-Ready for development! Run /rumiator-develop-next to start.
+Next steps:
+→ Run `/rumiator-develop TASK-001` to start implementing
+→ Or run `/rumiator-develop-next` to automatically pick next task
+
+Note: Technical specs provide architectural guidance only.
+Developers will make implementation decisions (APIs, schemas, etc.) during development.
 ```
+
+**⚡ Key difference:** Architect doesn't write implementation details - developers have more autonomy!
 
 ---
 
@@ -559,11 +558,13 @@ Next: Run /rumiator-create-tasks when ready to start iteration 2.
 
 **Documentation:**
 - 📄 Product plan with 3 iterations
-- 📄 6 functional specifications
-- 📄 6 technical specifications
-- 📄 1 Architecture Decision Record
+- 📄 6 tasks with business requirements (in YAML) ⚡
+- 📄 6 technical guidance documents (high-level) ⚡
+- 📄 2 Architecture Decision Records (validated with user) ⚡
 - 📄 1 Iteration report
 - 📄 Updated architecture diagram
+
+**⚡ Streamlined docs:** No separate functional specs, no detailed API/schema specs!
 
 **Code:**
 - 🔧 Backend API (18 endpoints)
@@ -582,15 +583,19 @@ Next: Run /rumiator-create-tasks when ready to start iteration 2.
 3. **Iteration works:** Small iterations delivered value quickly
 4. **Agents ask questions:** Clarifications improved quality
 5. **Progress is visible:** Status dashboard kept us motivated
+6. **⚡ Simplified workflow:** 2-phase analysis is faster and more efficient
+7. **⚡ Developer autonomy:** Developers make implementation decisions, not architects
+8. **⚡ User validation:** ADRs are validated with user before proceeding
 
 ## Next Steps for Iteration 2
 
 ```bash
-/rumiator-create-tasks  # Generate tasks for real-time features
-/rumiator-analyze-business all
-/rumiator-analyze-tech all
-/rumiator-develop-next  # Start building chat!
+/rumiator-create-tasks         # Generate tasks with business requirements ⚡
+/rumiator-analyze-tech all     # Get technical guidance only ⚡
+/rumiator-develop-next         # Start building chat!
 ```
+
+**⚡ Faster:** One less command - business analysis integrated into task creation!
 
 ---
 

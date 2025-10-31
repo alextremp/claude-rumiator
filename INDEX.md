@@ -89,9 +89,9 @@ Complete guide to all Rumiator documentation.
 
 | Template | Purpose |
 |----------|---------|
-| `.rumiator/templates/task.yml` | Task definition structure |
-| `.rumiator/templates/functional-spec.md` | Business requirements template |
-| `.rumiator/templates/technical-spec.md` | Technical design template |
+| `.rumiator/templates/task.yml` | Task definition structure (includes business requirements) ⚡ |
+| `.rumiator/templates/functional-spec.md` | ⚠️ DEPRECATED - Requirements now in task YAML |
+| `.rumiator/templates/technical-spec.md` | High-level technical guidance template ⚡ |
 | `.rumiator/templates/adr.md` | Architecture decision template |
 
 ---
@@ -212,8 +212,8 @@ Looking for specific information?
 - Task template → `.rumiator/templates/task.yml`
 
 ### Documentation
-- Functional specs → `.rumiator/templates/functional-spec.md`
-- Technical specs → `.rumiator/templates/technical-spec.md`
+- Task structure → `.rumiator/templates/task.yml` (includes business requirements) ⚡
+- Technical specs → `.rumiator/templates/technical-spec.md` (high-level guidance only) ⚡
 - ADRs → `.rumiator/templates/adr.md`
 
 ---
@@ -252,7 +252,7 @@ claude-rumiator/
 │       ├── rumiator-create-product.md
 │       ├── rumiator-update-plan.md
 │       ├── rumiator-create-tasks.md
-│       ├── rumiator-analyze-business.md
+│       ├── rumiator-analyze-business.md  # ⚠️ DEPRECATED
 │       ├── rumiator-analyze-tech.md
 │       ├── rumiator-develop.md
 │       ├── rumiator-develop-next.md

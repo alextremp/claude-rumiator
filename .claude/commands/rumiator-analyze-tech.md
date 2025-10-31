@@ -1,4 +1,4 @@
-Analyze tasks and create detailed technical specifications using the Architect agent.
+Analyze tasks and create high-level technical specifications using the Architect agent.
 
 Usage:
 - /rumiator-analyze-tech [task-id] - Analyze a specific task
@@ -6,7 +6,7 @@ Usage:
 
 Prerequisites:
 - Tasks must have status "pending-technical-analysis"
-- Functional specs must exist for the tasks
+- Tasks must already include business requirements (summary, user_stories, acceptance_criteria)
 
 ## Language Configuration
 **IMPORTANT**: Before starting, determine the user's language:
@@ -22,23 +22,34 @@ Prerequisites:
    - If task-id provided: validate it exists and has correct status
    - If invalid task-id or wrong status: show error and list valid tasks
 2. For each task to analyze:
-   a. Read the task YAML and functional spec
+   a. Read the task YAML (which already includes business requirements)
    b. Launch the architect agent in "Technical Analysis Mode":
-      - Read functional spec to understand requirements
-      - Create docs/features/[feature-name]/technical.md following template:
-        * Technology stack needed
-        * Architecture diagram (Mermaid)
-        * API endpoints with full specification (request/response)
-        * Data models (TypeScript interfaces or equivalent)
-        * Database schema (SQL or schema definition)
+      - Read task business requirements (summary, user_stories, acceptance_criteria)
+      - Read docs/product/architecture.md to understand current architecture
+      - Read existing ADRs to understand architectural decisions
+      - **Evaluate if ADR is needed**:
+        * If yes: Create ADR draft and **ASK USER** to validate it
+        * If user approves: Save ADR and continue
+        * If user rejects: Revise or skip ADR creation
+      - Create docs/features/[feature-name]/technical.md with **HIGH-LEVEL guidance**:
+        * Technology stack to use
+        * Architecture overview (how feature fits into system)
+        * Frontend considerations: design system components, state management, routing, impact
+        * Backend considerations: API approach, business logic, data access pattern, impact
         * Security considerations
         * Performance considerations
-        * Testing strategy
-        * Complexity estimate (low/medium/high) with justification
-        * Technical decisions with rationale
-      - Update docs/product/architecture.md with new components/flows
-      - If significant architectural decision, create ADR in docs/adr/
-      - If the architect has questions about technology choices, ask the user
+        * Architectural decisions with rationale
+        * ADR references
+        * Testing strategy (what types of tests needed)
+        * Complexity estimate with justification
+        * Implementation notes (high-level guidance, constraints, risks)
+      - **DO NOT include**:
+        * Specific API endpoint paths/methods
+        * Request/response JSON examples
+        * Data models or TypeScript interfaces
+        * Database schemas or SQL
+        * Code snippets or implementation examples
+      - Update docs/product/architecture.md with new components/patterns if applicable
    c. **VERIFY ARCHITECTURAL DECISIONS** (Critical Step):
       - After technical spec is created, scan it for ADR references
       - For each referenced ADR:
@@ -89,17 +100,105 @@ Prerequisites:
    - Task ID and title
    - Complexity estimate
    - Key technologies involved
+   - ADRs created/referenced (if any)
    - Path to technical spec
-   - ADR created (if any)
 4. After all tasks processed, display:
    - Total tasks analyzed
    - Complexity breakdown (X low, Y medium, Z high)
+   - ADRs created or referenced
    - Next steps: Run /rumiator-develop [task-id] or /rumiator-develop-next to start implementation
 
-Important:
-- The architect MUST ask the user about tech preferences if unclear (confidence < 50%)
-- Technical specs should be detailed but concise (~1.5 pages)
-- Maintain consistency with overall architecture
-- Document tradeoffs explicitly
-- Prefer simple, proven solutions
-- Update architecture.md for every task
+## Important Notes
+
+### What Changed
+- Technical specs now provide **high-level architectural guidance** only
+- **NO implementation details** (API specs, data models, schemas, code) are included
+- **ADRs are validated with user** before proceeding
+- Developers will make implementation decisions based on guidance and business requirements
+- Technical specs are **shorter and more focused** (1-2 pages vs 3-5 pages)
+
+### Architect Responsibilities
+- **Identify** which technologies and patterns to use
+- **Assess** architectural impact of the feature
+- **Create** ADRs for significant decisions (with user validation)
+- **Provide** high-level guidance and considerations
+- **Estimate** complexity based on architecture
+- **DO NOT** write implementation code or detailed specs
+
+### Developer Responsibilities (next phase)
+- Read business requirements from task YAML
+- Read architectural guidance from technical spec
+- Make implementation decisions (API design, data models, schemas)
+- Write code following architectural patterns
+- Ensure acceptance criteria are met
+
+## Example Output
+
+```
+Reading tasks pending technical analysis...
+Found 3 tasks to analyze.
+
+Analyzing TASK-001: User Registration and Email Verification
+→ Reading business requirements from task YAML...
+→ Understanding current architecture...
+→ Evaluating if ADR is needed...
+
+Agent: This task introduces authentication to the system.
+Should I create an ADR for the authentication approach (JWT vs Session-based)?
+
+> Yes, please create an ADR for JWT-based authentication
+
+Creating ADR-001: JWT-based Authentication
+→ Title: Use JWT tokens with refresh token rotation
+→ Decision: JWT for stateless authentication
+→ Alternatives: Session-based, OAuth only
+
+> Please review this ADR. Proceed? (y/n)
+y
+
+✓ ADR-001 validated and saved
+→ Creating technical specification...
+→ Updating architecture.md...
+
+✓ Technical spec created at docs/features/authentication/technical.md
+✓ Task updated to "ready-for-development"
+✓ Complexity: Medium
+
+Technologies identified:
+- Frontend: React Context for auth state, TanStack Query
+- Backend: JWT with bcrypt for password hashing
+- Database: PostgreSQL with indexes on email
+
+---
+
+Analyzing TASK-002: Workspace Creation and Management
+→ Reading business requirements...
+→ Understanding current architecture...
+→ No new ADR needed (uses existing patterns)
+
+✓ Technical spec created at docs/features/workspaces/technical.md
+✓ Task updated to "ready-for-development"
+✓ Complexity: High (multi-tenant architecture)
+
+Technologies identified:
+- Frontend: Design system Table and Form components
+- Backend: Multi-tenant data isolation pattern
+- Database: PostgreSQL with workspace_id in all tables
+
+---
+
+All tasks analyzed!
+
+Summary:
+- Tasks analyzed: 2
+- Complexity: 0 low, 1 medium, 1 high
+- ADRs created: 1 (ADR-001)
+- Ready for development: 2
+
+Next steps:
+→ Run `/rumiator-develop TASK-001` to start implementing
+→ Or run `/rumiator-develop-next` to automatically pick next task
+
+Note: Technical specs provide architectural guidance only.
+Developers will make implementation decisions (APIs, schemas, etc.) during development.
+```

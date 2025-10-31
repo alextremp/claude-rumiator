@@ -1,3 +1,35 @@
+⚠️ **DEPRECATED COMMAND** ⚠️
+
+This command is **NO LONGER NEEDED** in the simplified Rumiator workflow.
+
+## Why is this deprecated?
+
+In the new workflow:
+- Business requirements (summary, user stories, acceptance criteria) are now created **directly in the task YAML** during task creation
+- The `/rumiator-create-tasks` command now handles all business analysis
+- Tasks are created in status `pending-technical-analysis` immediately
+- There is **NO separate business analysis phase**
+
+## What to use instead
+
+Instead of running this command, simply run:
+- `/rumiator-create-tasks` - Creates tasks with complete business requirements
+- `/rumiator-analyze-tech all` - Analyzes technical approach (next step)
+
+## Migration Notes
+
+If you have tasks in status `pending-business-analysis`:
+1. Manually update the task YAML to include:
+   - `summary`: Brief description of what the task accomplishes
+   - `user_stories`: List of user stories
+   - `acceptance_criteria`: Testable criteria
+2. Update status to `pending-technical-analysis`
+3. Run `/rumiator-analyze-tech` to continue
+
+---
+
+## OLD DOCUMENTATION (for reference only)
+
 Analyze tasks and create detailed functional specifications using the Functional Analyst agent.
 
 Usage:

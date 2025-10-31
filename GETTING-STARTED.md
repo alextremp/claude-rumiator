@@ -68,33 +68,30 @@ Answer these questions:
 /rumiator-create-tasks
 ```
 
-**Result:** Tasks generated for first iteration (e.g., TASK-001: User auth, TASK-002: Task CRUD, etc.)
-
-### Step 4: Analyze Requirements (1 minute)
-
-```
-/rumiator-analyze-business all
-```
-
-The agent will ask clarifying questions. Answer honestly:
+The agent will ask clarifying questions about business requirements:
 - "Should we support multiple lists?" → Your choice!
 - "What happens when a task is completed?" → Your decision!
 
-**Result:** Functional specs created for each task.
+**Result:** Tasks generated with:
+- Summary (what the task accomplishes)
+- User stories (user perspective)
+- Acceptance criteria (testable requirements)
+- Status: `pending-technical-analysis`
 
-### Step 5: Design Architecture (1 minute)
+### Step 4: Get Technical Guidance (1 minute)
 
 ```
 /rumiator-analyze-tech all
 ```
 
-The agent will ask tech preferences:
-- "Preferred frontend framework?" → React, Vue, or whatever you like
-- "Database preference?" → PostgreSQL, MongoDB, etc.
+The agent will:
+- Ask tech preferences: "Preferred stack? React/Vue? Node/Python?"
+- Create ADRs for important decisions (with your validation)
+- Provide high-level architectural guidance (NO code/schemas)
 
-**Result:** Technical specs and architecture diagram created.
+**Result:** Technical guidance created for each task.
 
-### Step 6: Start Coding! (Ongoing)
+### Step 5: Start Coding! (Ongoing)
 
 ```
 /rumiator-develop-next
@@ -116,12 +113,13 @@ The system will:
 In 5 minutes, you:
 - ✅ Structured your project
 - ✅ Created a comprehensive product plan
-- ✅ Generated task list with priorities
-- ✅ Documented business requirements
-- ✅ Designed technical architecture
+- ✅ Generated task list with business requirements (summary, user stories, acceptance criteria)
+- ✅ Got high-level technical guidance (architecture, design system, considerations)
 - ✅ Started implementing features
 
 All with **full documentation** that's automatically generated!
+
+**⚡ New workflow**: Business requirements are now integrated into task creation, making the process faster!
 
 ---
 
@@ -164,8 +162,10 @@ Creates a comprehensive report of what was accomplished.
 
 ### The Flow
 ```
-Idea → Plan → Tasks → Business Analysis → Tech Analysis → Development → Review
+Idea → Plan → Tasks (with business requirements) → Technical Guidance → Development → Review
 ```
+
+**⚡ Simplified**: 2-phase analysis instead of 3!
 
 ### Key Files You'll See
 
@@ -181,21 +181,22 @@ docs/
     architecture.md    ← System design
   features/
     auth/
-      functional.md    ← "What" to build
-      technical.md     ← "How" to build
+      technical.md     ← High-level architectural guidance (no code/schemas)
 ```
 
 ### The Agents
 
 Think of them as your team:
 - **PM**: Strategizes the product
-- **Analyst**: Figures out requirements
-- **Architect**: Designs the system
-- **Developers**: Write the code
+- **Analyst**: Creates tasks with business requirements (summary, user stories, criteria)
+- **Architect**: Provides high-level technical guidance and manages ADRs
+- **Developers**: Make implementation decisions and write code
 - **DevOps**: Deploy it
 - **QA**: Test it
 
 They all **ask you questions** when they need input!
+
+**⚡ New**: Developers now have more autonomy to make implementation decisions!
 
 ---
 
@@ -247,17 +248,16 @@ You: "Add books, track reading progress, take notes, get recommendations"
 Claude: [generates 3-iteration plan]
 
 You: /rumiator-create-tasks
-Claude: [creates 8 tasks for iteration 1]
-
-You: /rumiator-analyze-business all
 Claude: Should users be able to share their reading lists publicly?
 You: "Yes, but privacy settings should be available"
-Claude: [generates functional specs]
+Claude: [creates 8 tasks with business requirements]
 
 You: /rumiator-analyze-tech all
 Claude: Preferred stack?
 You: "React + Node.js + PostgreSQL"
-Claude: [generates technical specs + architecture]
+Claude: Should I create an ADR for the data model approach?
+You: "Yes, please"
+Claude: [generates high-level technical guidance + ADRs]
 
 You: /rumiator-develop-next
 Claude: Next task is TASK-001: User Authentication. Proceed?

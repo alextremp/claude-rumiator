@@ -2,11 +2,22 @@
 
 **Rumiator** is a comprehensive project development framework for Claude Code that implements the Rational Unified Process (RUP) methodology through specialized agents and workflow commands.
 
+## ⚡ What's New: Simplified Workflow
+
+**Rumiator has been streamlined** to make development faster and more efficient:
+- ✅ **2-phase workflow** instead of 3 (Task Creation → Technical Analysis → Development)
+- ✅ **Business requirements** integrated directly into task creation
+- ✅ **Technical specs** focus on high-level guidance, not implementation details
+- ✅ **Developers** make implementation decisions based on business requirements and architectural guidance
+- ❌ No more separate business analysis phase
+- ❌ No more detailed API specs, data models, or schemas in technical docs
+
 ## 🎯 Overview
 
 Rumiator helps you build software projects iteratively by:
 - Breaking down product ideas into manageable iterations
-- Creating detailed specifications for every feature
+- Creating clear business requirements for every feature
+- Providing architectural guidance without over-specifying
 - Maintaining comprehensive documentation
 - Tracking progress systematically
 - Involving you in every important decision
@@ -15,10 +26,10 @@ Rumiator helps you build software projects iteratively by:
 
 ### Agents (Specialized Workers)
 - **project-manager**: Creates product vision and iteration plans
-- **functional-analyst**: Writes business requirements and acceptance criteria
-- **architect**: Designs technical architecture and specifications
-- **developer-frontend**: Implements frontend features
-- **developer-backend**: Implements backend features
+- **functional-analyst**: Creates task definitions with business requirements (summary, user stories, acceptance criteria)
+- **architect**: Provides high-level technical guidance and manages architectural decisions (ADRs)
+- **developer-frontend**: Implements frontend features based on business requirements and technical guidance
+- **developer-backend**: Implements backend features based on business requirements and technical guidance
 - **devops**: Sets up CI/CD and infrastructure
 - **quality-assurance**: Reviews and validates implementations
 
@@ -117,7 +128,7 @@ The PM will generate a plan with iterations like:
 
 ## 📋 Workflow: From Idea to Implementation
 
-### Phase 1: Planning
+### Phase 1: Task Creation with Business Requirements
 
 #### Create Tasks
 ```bash
@@ -127,61 +138,40 @@ The PM will generate a plan with iterations like:
 The functional analyst:
 - Reads the product plan
 - Identifies features for current iteration
-- Creates task files (.rumiator/tasks/TASK-XXX.yml)
-- Sets status to "pending-business-analysis"
-
-### Phase 2: Business Analysis
-
-#### Analyze Requirements
-```bash
-/rumiator-analyze-business all
-# or for a specific task:
-/rumiator-analyze-business TASK-001
-```
-
-For each task, the functional analyst:
-- Creates `docs/features/[feature]/functional.md`
-- Documents:
-  - User stories
-  - Detailed flows (with Mermaid diagrams)
-  - Acceptance criteria
-  - Business rules
+- Creates task files (.rumiator/tasks/TASK-XXX.yml) with:
+  - **Summary**: 3-5 line description of what the task accomplishes
+  - **User Stories**: User-focused stories describing the feature
+  - **Acceptance Criteria**: Specific, testable criteria
+- Sets status to "pending-technical-analysis" (ready for architect)
 - **Asks you** if requirements are unclear
-- Updates task status to "pending-technical-analysis"
 
-**Example functional spec:**
-```markdown
-# User Authentication - Functional Specification
+**Example task YAML:**
+```yaml
+id: TASK-001
+title: "User Registration and Email Verification"
+feature: authentication
+status: pending-technical-analysis
+priority: high
 
-## Overview
-Users must be able to register and log in to access the platform.
+summary: "Enable users to register for an account using their email address. Users must verify their email before accessing the platform. This provides secure account creation and ensures valid contact information."
 
-## User Stories
-- As a new user, I want to register with email/password
-- As a returning user, I want to log in securely
+user_stories:
+  - "As a new user, I want to register with my email and password, so that I can create an account"
+  - "As a new user, I want to receive a verification email, so that I can confirm my email address"
+  - "As a registered user, I want to verify my email through a link, so that I can access the platform"
 
-## Flows
-```mermaid
-graph TD
-    A[User visits /register] --> B[Enters email, password, name]
-    B --> C{Valid input?}
-    C -->|No| D[Show validation errors]
-    C -->|Yes| E[Create account]
-    E --> F[Send welcome email]
-    F --> G[Redirect to dashboard]
+acceptance_criteria:
+  - "User can register by providing email, password, and name"
+  - "Email must be unique across all users"
+  - "Password must be at least 8 characters with at least one number"
+  - "User receives verification email within 1 minute of registration"
+  - "User cannot log in until email is verified"
+  - "Verification link expires after 24 hours"
 ```
 
-## Acceptance Criteria
-- [ ] User can register with valid email/password
-- [ ] Password must be at least 8 characters
-- [ ] Email must be unique
-- [ ] User receives welcome email
-- [ ] User is logged in after registration
-```
+### Phase 2: Technical Analysis
 
-### Phase 3: Technical Analysis
-
-#### Create Technical Specs
+#### Create Technical Guidance
 ```bash
 /rumiator-analyze-tech all
 # or for a specific task:
@@ -189,62 +179,53 @@ graph TD
 ```
 
 For each task, the architect:
-- Creates `docs/features/[feature]/technical.md`
-- Specifies:
-  - API endpoints
-  - Data models
-  - Database schema
-  - Security considerations
+- Reads business requirements from task YAML
+- Creates `docs/features/[feature]/technical.md` with **high-level guidance**:
+  - Technology stack to use
+  - Design system components to leverage
+  - Architecture approach and impact
+  - Security and performance considerations
   - Testing strategy
-- Updates `docs/product/architecture.md`
-- Creates ADRs for significant decisions
-- **Asks you** about tech preferences if needed
+- Creates ADRs for significant decisions and **validates with you**
+- Updates `docs/product/architecture.md` if needed
 - Updates task status to "ready-for-development"
+- **Does NOT write**: API specs, data models, schemas, or code
 
 **Example technical spec:**
 ```markdown
 # User Authentication - Technical Specification
 
-## API Endpoints
+## Technology Stack
+- **Frontend**: React 18 with TypeScript, TanStack Query
+- **Backend**: Node.js with Express, JWT for authentication
+- **Database**: PostgreSQL for user data
 
-### POST /api/auth/register
-**Request:**
-```json
-{
-  "email": "user@example.com",
-  "password": "securePass123",
-  "name": "John Doe"
-}
-```
+## Technical Considerations
 
-**Response (201):**
-```json
-{
-  "id": "uuid",
-  "email": "user@example.com",
-  "name": "John Doe",
-  "token": "jwt-token"
-}
-```
+### Frontend Considerations
+- **Design System**: Use existing Form, Input, and Button components
+- **State Management**: Use React Context for auth state
+- **Routing**: Add /register, /login, /verify-email routes
+- **Architecture Impact**: Establishes authentication pattern for all future features
 
-## Data Model
-```typescript
-interface User {
-  id: string;
-  email: string;
-  passwordHash: string;
-  name: string;
-  createdAt: Date;
-}
-```
+### Backend Considerations
+- **API Design**: RESTful endpoints for register, login, verify, refresh
+- **Business Logic**: Email uniqueness validation, password hashing, token generation
+- **Data Access**: Repository pattern for user data access
+- **Architecture Impact**: Establishes JWT-based auth pattern
+
+### Security Considerations
+- Passwords must be hashed with bcrypt (12 rounds)
+- JWT tokens should be short-lived (15 min) with refresh tokens
+- Rate limit authentication endpoints to prevent brute force
 
 ## Complexity: Medium
-- Standard auth flow
-- JWT implementation
-- Password hashing with bcrypt
+- Standard authentication flow
+- Multiple integration points (email service, JWT)
+- Security requirements add complexity
 ```
 
-### Phase 4: Development
+### Phase 3: Development
 
 #### Develop a Specific Task
 ```bash
@@ -392,13 +373,12 @@ For important technical decisions:
 /rumiator-create-product
 
 # Day 2: Planning
-/rumiator-create-tasks
-/rumiator-analyze-business all
-/rumiator-analyze-tech all
+/rumiator-create-tasks           # Creates tasks with business requirements
+/rumiator-analyze-tech all       # Architect provides technical guidance
 
 # Days 3-10: Development
-/rumiator-develop-next  # Repeat for each task
-/rumiator-status        # Check progress
+/rumiator-develop-next           # Repeat for each task
+/rumiator-status                 # Check progress
 
 # Day 11: Review
 /rumiator-report
@@ -411,29 +391,29 @@ git commit -m "Complete iteration 1"
 git push
 ```
 
+**What changed**: Business analysis is now integrated into task creation, making the workflow faster and simpler.
+
 ## 📚 Task Lifecycle
 
 ```mermaid
 graph LR
-    A[draft] --> B[pending-business-analysis]
-    B --> C[pending-technical-analysis]
-    C --> D[ready-for-development]
-    D --> E[in-progress]
-    E --> F[in-review]
-    F --> G[done]
+    A[pending-technical-analysis] --> B[ready-for-development]
+    B --> C[in-progress]
+    C --> D[in-review]
+    D --> E[done]
 
-    E -.-> H[blocked]
-    H -.-> E
+    C -.-> F[blocked]
+    F -.-> C
 
-    style A fill:#f9f9f9
-    style B fill:#fff3cd
-    style C fill:#cfe2ff
-    style D fill:#d1e7dd
-    style E fill:#ffc107
-    style F fill:#0dcaf0
-    style G fill:#198754
-    style H fill:#dc3545
+    style A fill:#cfe2ff
+    style B fill:#d1e7dd
+    style C fill:#ffc107
+    style D fill:#0dcaf0
+    style E fill:#198754
+    style F fill:#dc3545
 ```
+
+**Simplified workflow**: Tasks now start at `pending-technical-analysis` with business requirements already included.
 
 ## 🎓 Understanding Task Files
 
@@ -448,20 +428,41 @@ iteration: 1
 created: "2025-10-10"
 updated: "2025-10-11"
 
+# Functional Information (created during task creation)
+summary: "Enable users to register and log in to access the platform. Includes email verification to ensure valid contact information and secure account creation."
+
+user_stories:
+  - "As a new user, I want to register with email/password, so that I can create an account"
+  - "As a user, I want to verify my email, so that I can prove ownership"
+  - "As a returning user, I want to log in securely, so that I can access my account"
+
+acceptance_criteria:
+  - "User can register with email, password, and name"
+  - "User can log in with valid credentials"
+  - "Password must be at least 8 characters with at least one number"
+  - "Email must be unique across all users"
+  - "User receives verification email within 1 minute"
+  - "User cannot log in until email is verified"
+
+# Analysis
 business_analyst: "functional-analyst"
 architect: "architect"
+
+# Execution
 developers: []
 estimated_complexity: medium
 
+# Status
 blockers: []
-acceptance_criteria:
-  - "User can register with email/password"
-  - "User can log in with valid credentials"
-  - "Password must be at least 8 characters"
+notes: ""
 
-functional_spec: "docs/features/auth/functional.md"
+# References
+functional_spec: ""
 technical_spec: "docs/features/auth/technical.md"
+related_adrs: ["ADR-001"]
 ```
+
+**Key changes**: Business requirements (summary, user stories, acceptance criteria) are now in the task YAML, not in a separate functional spec.
 
 ## 🐛 Bug Management
 

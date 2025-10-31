@@ -13,11 +13,10 @@ Rumiator helps you build software projects systematically by combining specializ
 # 2. Create product vision
 /rumiator-create-product
 
-# 3. Generate tasks
+# 3. Generate tasks (with business requirements)
 /rumiator-create-tasks
 
-# 4. Analyze requirements
-/rumiator-analyze-business all
+# 4. Analyze technical approach
 /rumiator-analyze-tech all
 
 # 5. Start developing
@@ -26,6 +25,8 @@ Rumiator helps you build software projects systematically by combining specializ
 # 6. Monitor progress
 /rumiator-status
 ```
+
+**⚡ New**: Business requirements now integrated into task creation - faster workflow!
 
 ## Features
 
@@ -43,10 +44,10 @@ Rumiator helps you build software projects systematically by combining specializ
 
 ### Agents (Workers)
 - **project-manager** - Product vision and iteration planning
-- **functional-analyst** - Business requirements and acceptance criteria
-- **architect** - Technical design and architecture decisions
-- **developer-frontend** - Frontend implementation
-- **developer-backend** - Backend implementation
+- **functional-analyst** - Creates tasks with business requirements (summary, user stories, acceptance criteria)
+- **architect** - High-level technical guidance and architectural decisions (ADRs)
+- **developer-frontend** - Frontend implementation based on requirements and guidance
+- **developer-backend** - Backend implementation based on requirements and guidance
 - **devops** - CI/CD and infrastructure
 - **quality-assurance** - Testing and validation
 
@@ -64,8 +65,8 @@ Rumiator helps you build software projects systematically by combining specializ
 **Analysis & Design**
 | Command | Purpose |
 |---------|---------|
-| `/rumiator-analyze-business` | Create functional specs |
-| `/rumiator-analyze-tech` | Create technical specs |
+| `/rumiator-analyze-business` | ⚠️ DEPRECATED - No longer needed |
+| `/rumiator-analyze-tech` | Create high-level technical guidance |
 | `/rumiator-adr` | Create architecture decision record |
 
 **Development**
@@ -106,10 +107,9 @@ your-project/
 │   └── templates/              # Document templates
 ├── docs/
 │   ├── product/                # Product plan, architecture
-│   ├── features/               # Functional & technical specs
+│   ├── features/               # Technical specs (high-level guidance)
 │   │   └── [feature]/
-│   │       ├── functional.md
-│   │       ├── technical.md
+│   │       ├── technical.md    # ⚡ Simplified: architectural guidance only
 │   │       └── bugs/           # Bug analysis documents
 │   ├── adr/                    # Architecture decisions
 │   │   └── reviews/            # Architecture review documents
@@ -134,23 +134,21 @@ your-project/
 /rumiator-create-product
 > "A task management app for remote teams..."
 
-# Generate tasks for iteration 1
+# Generate tasks for iteration 1 (includes business requirements)
 /rumiator-create-tasks
 # Created: TASK-001 (Auth), TASK-002 (Tasks CRUD), TASK-003 (Dashboard)
+# Each task includes: summary, user stories, acceptance criteria
 
-# Analyze requirements
-/rumiator-analyze-business all
-# Agent asks: "Should we support OAuth or just email/password?"
-> "Just email/password for MVP"
-
-# Design architecture
+# Get technical guidance
 /rumiator-analyze-tech all
-# Agent asks: "Preferred stack? React/Vue? Node/Python?"
-> "React + Node.js + PostgreSQL"
+# Agent asks: "Should I create an ADR for authentication approach?"
+> "Yes, use JWT"
+# Agent creates high-level technical guidance (no code/schemas)
 
 # Develop tasks
 /rumiator-develop-next
 # Implements TASK-001 (backend + frontend + tests)
+# Developer agents make implementation decisions
 
 # Check progress
 /rumiator-status
@@ -162,8 +160,10 @@ your-project/
 
 # Generate report
 /rumiator-report
-# Creates docs/iterations/iteration-01-report.md
+# Creates docs/iterations/iteration-01/report.md
 ```
+
+**⚡ Simplified**: 2-phase workflow instead of 3 - faster and more efficient!
 
 ## Key Principles
 

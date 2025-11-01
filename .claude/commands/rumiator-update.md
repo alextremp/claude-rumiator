@@ -106,7 +106,31 @@ e. If any action fails:
    - Ask user if they want to continue or abort
    - If abort, stop migration and display current version
 
-### 6. Update Project Version
+### 6. Apply Direct File Copies
+
+a. Copy all files from the official repository to ensure changes are applied correctly:
+
+   ```bash
+   cp -Rf .repositories/claude-rumiator/.claude .
+   cp -Rf .repositories/claude-rumiator/.rumiator .
+   cp -Rf .repositories/claude-rumiator/*.md .
+   ```
+
+b. These commands will:
+   - Update `.claude/` directory with latest agents and commands
+   - Update `.rumiator/` directory with latest configuration and templates
+   - Update markdown files (CHANGELOG, README, etc.) in project root
+
+c. Display progress:
+   ```
+   ✓ Copying .claude directory...
+   ✓ Copying .rumiator directory...
+   ✓ Copying markdown files...
+   ```
+
+d. If any copy fails, display error and ask user if they want to continue or abort
+
+### 7. Update Project Version
 
 a. Update `rumiator_version` in `.rumiator/config.yml` to latest version
 
@@ -118,6 +142,7 @@ b. Display success message:
    - Previous version: A.B.C
    - New version: X.Y.Z
    - Migrations applied: N
+   - Files synchronized from official repository
 
    Next steps:
    - Review changes in your .rumiator/ directory
@@ -125,7 +150,7 @@ b. Display success message:
    - Continue with your development workflow
    ```
 
-### 7. Handle Special Cases
+### 8. Handle Special Cases
 
 **Pre-versioning projects** (version 0.0.0 or missing):
 - Inform user this is a pre-versioning project
@@ -141,7 +166,7 @@ b. Display success message:
 - If can't clone/pull repository, inform user
 - Suggest manual update process
 
-### 8. Migration Log
+### 9. Migration Log
 
 Create a migration log at `.rumiator/migration-log.txt`:
 ```

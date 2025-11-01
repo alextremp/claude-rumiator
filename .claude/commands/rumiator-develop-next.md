@@ -17,7 +17,6 @@ Prerequisites:
    - Check if there are tasks in earlier stages
    - Display status breakdown (X pending analysis, Y in progress, Z done)
    - Suggest appropriate command:
-     * If pending-business-analysis: /rumiator-analyze-business all
      * If pending-technical-analysis: /rumiator-analyze-tech all
      * If all done: Congratulate user, suggest next iteration
 3. If tasks are ready, select the next task to develop:

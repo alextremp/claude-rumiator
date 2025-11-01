@@ -31,7 +31,6 @@ Prerequisites:
 
    **By Status:**
    - draft (not yet analyzed)
-   - pending-business-analysis
    - pending-technical-analysis
    - ready-for-development
    - in-progress

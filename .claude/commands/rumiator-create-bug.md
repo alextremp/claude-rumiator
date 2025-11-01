@@ -60,8 +60,7 @@ Prerequisites:
       * Suggested fix approach
       * Whether functional spec needs update
 11. Ask user if immediate fix is needed:
-    - **Yes, urgent**: Update status to "pending-technical-analysis"
-    - **Yes, but can wait**: Keep as "pending-business-analysis"
+    - **Yes**: Update status to "pending-technical-analysis"
     - **No, backlog**: Keep as "draft" in next iteration
 12. Display bug summary:
     - Bug ID and title

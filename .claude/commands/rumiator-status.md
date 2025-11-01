@@ -17,7 +17,7 @@ Display a comprehensive status dashboard of the current project and its tasks.
    - Architecture Reviews (type: architecture-review)
 4. Calculate statistics for each category:
    - Total tasks by type
-   - Tasks by status (draft, pending-business-analysis, pending-technical-analysis, ready-for-development, in-progress, in-review, blocked, done, pending-architecture-review)
+   - Tasks by status (draft, pending-technical-analysis, ready-for-development, in-progress, in-review, blocked, done, pending-architecture-review)
    - Tasks by priority (critical, high, medium, low)
    - Tasks by complexity (low, medium, high)
    - Tasks by iteration

@@ -24,7 +24,7 @@ Prerequisites:
        - **summary**: 3-5 line description of what the task accomplishes
        - **user_stories**: List of user stories in format "As a [role], I want to [action], so that [benefit]"
        - **acceptance_criteria**: Specific, testable criteria
-       - **status**: `pending-technical-analysis` (NOT draft or pending-business-analysis)
+       - **status**: `pending-technical-analysis`
        - **business_analyst**: "functional-analyst"
      * Create docs/features/[feature-name]/ directory
 5. Display created tasks summary:

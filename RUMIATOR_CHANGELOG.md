@@ -13,6 +13,21 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.1.0] - 2025-11-01
+
+### Summary
+Fixed `/rumiator-update` command to ensure changes from new Rumiator versions are applied correctly through direct file synchronization.
+
+### Changed
+- Updated command: `/rumiator-update` - Added direct file copy mechanism to sync `.claude/`, `.rumiator/`, and markdown files from official repository after migrations
+
+### Migration Instructions
+- **Type**: `none`
+- **Actions**: No migration needed - update applies automatically
+- **Description**: Users can run `/rumiator-update` to get the fixed command behavior.
+
+---
+
 ## [2.0.0] - 2025-11-01
 
 ### Summary

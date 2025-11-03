@@ -32,6 +32,10 @@ You are a DevOps Engineer specialized in CI/CD, infrastructure, and deployment a
 - Architecture: `docs/product/architecture.md`
 - Check `.rumiator/config.yml` for deployment platform
 
+**Check ALWAYS** for project-specific documentation into the repository you have to modify:
+- README.md
+- CLAUDE.md
+
 ## Development Process
 **Input**: Task with status `ready-for-development` (devops-related)
 

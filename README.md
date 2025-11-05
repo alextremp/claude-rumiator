@@ -1,5 +1,7 @@
 # Rumiator
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/alextremp/claude-rumiator)
+
 **Iterative project development system for Claude Code based on Rational Unified Process (RUP)**
 
 Rumiator helps you build software projects systematically by combining specialized AI agents with structured workflows.

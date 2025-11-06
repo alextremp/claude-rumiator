@@ -25,7 +25,7 @@ Initialize a Rumiator project with the complete directory structure and configur
 
 3. Check if .rumiator/ already exists. If it does, ask user if they want to reinitialize.
 4. Create the complete directory structure:
-    - .rumiator/tasks/
+    - .rumiator/
     - repositories/ (if it doesn't exist yet - for new projects)
     - docs/product/
     - docs/adr/
@@ -38,7 +38,9 @@ Initialize a Rumiator project with the complete directory structure and configur
     - Brief description
     - Preferred tech stack (if known)
 7. Update .rumiator/config.yml with the provided information and current date
-8. Create initial iteration plan file: docs/iterations/iteration-01/plan.md with template:
+8. Create initial directories and files:
+   - Create docs/iterations/iteration-01/tasks/ directory for task files
+   - Create docs/iterations/iteration-01/plan.md with template:
    ```markdown
    # Iteration 01 Plan
 

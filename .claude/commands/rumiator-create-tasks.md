@@ -18,8 +18,8 @@ Prerequisites:
 4. Launch the functional-analyst agent in "Task Creation Mode":
    - Identify all features for the current iteration
    - For each feature:
-     * Determine next task ID (check existing tasks in .rumiator/tasks/)
-     * Create .rumiator/tasks/TASK-XXX.yml with:
+     * Determine next task ID (check existing tasks in docs/iterations/iteration-XX/tasks/)
+     * Create docs/iterations/iteration-XX/tasks/TASK-XXX.yml with:
        - Basic metadata (id, type, title, feature, priority, iteration, dates)
        - **summary**: 3-5 line description of what the task accomplishes
        - **user_stories**: List of user stories in format "As a [role], I want to [action], so that [benefit]"

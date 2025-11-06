@@ -16,38 +16,39 @@ Prerequisites:
 
 ## Steps
 
-1. Parse optional related-task-id from command
-2. If related-task-id provided:
-   - Validate it exists in .rumiator/tasks/
+1. Read .rumiator/config.yml to get current iteration number
+2. Parse optional related-task-id from command
+3. If related-task-id provided:
+   - Validate it exists in docs/iterations/iteration-XX/tasks/ (where XX is current iteration)
    - Read the task to understand context
    - Extract feature name for categorization
-3. If no related-task-id, ask user:
+4. If no related-task-id, ask user:
    - Which feature is affected? (list existing features from docs/features/)
    - Or is this a new/general bug?
-4. Ask user for bug details:
+5. Ask user for bug details:
    - **Title**: Brief description of the bug
    - **Severity**: low | medium | high | critical
    - **Steps to reproduce**: How to trigger the bug
    - **Expected behavior**: What should happen
    - **Actual behavior**: What actually happens
    - **Root cause** (if known): Optional, can be determined during analysis
-5. Determine next TASK-ID:
-   - Scan .rumiator/tasks/ for highest existing ID
+6. Determine next TASK-ID:
+   - Scan docs/iterations/iteration-XX/tasks/ (where XX is current iteration) for highest existing ID
    - Increment to get next ID (TASK-XXX)
-6. Determine iteration placement based on severity:
+7. Determine iteration placement based on severity:
    - **Critical/High**: Add to current iteration with high priority
    - **Medium**: Add to current iteration with medium priority
    - **Low**: Add to backlog (current iteration + 1) with low priority
-7. Create .rumiator/tasks/TASK-XXX.yml:
+8. Create docs/iterations/iteration-XX/tasks/TASK-XXX.yml (where XX is the target iteration):
    - type: bug
    - Set all bug_info fields
    - Set status: "draft"
    - Set priority based on severity
    - Add related_tasks if applicable
-8. Create bug analysis directory:
+9. Create bug analysis directory:
    - docs/features/[feature]/bugs/ (if doesn't exist)
    - Create placeholder: docs/features/[feature]/bugs/BUG-XXX-analysis.md
-9. If related to existing TASK(s):
+10. If related to existing TASK(s):
    - Read each related task YAML
    - Add this bug ID to their related_bugs array
    - Add note about the bug

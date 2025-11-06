@@ -37,7 +37,7 @@ Usage:
 - /rumiator-analyze-business all - Analyze all tasks pending business analysis
 
 Prerequisites:
-- Tasks must exist in .rumiator/tasks/ with status "pending-business-analysis"
+- Tasks must exist in docs/iterations/iteration-XX/tasks/ with status "pending-business-analysis"
 
 ## Language Configuration
 **IMPORTANT**: Before starting, determine the user's language:

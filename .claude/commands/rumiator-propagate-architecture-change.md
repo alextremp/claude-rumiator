@@ -44,7 +44,8 @@ This command handles the cascading updates needed when an architectural decision
 
    **In Task YAMLs:**
    ```
-   Search: .rumiator/tasks/*.yml
+   Read .rumiator/config.yml to get current iteration
+   Search: docs/iterations/iteration-XX/tasks/*.yml (where XX is current iteration)
    Pattern: related_adrs containing old ADR-YYY
    Also search: tasks with related features
    ```
@@ -210,8 +211,9 @@ This command handles the cascading updates needed when an architectural decision
     **Creating Architecture Review Tasks:**
     ```
     For each completed task needing review:
-    1. Get next TASK-ID
-    2. Create new TASK-XXX.yml:
+    1. Read .rumiator/config.yml to get current iteration
+    2. Get next TASK-ID
+    3. Create new docs/iterations/iteration-XX/tasks/TASK-XXX.yml (where XX is current iteration):
        - type: architecture-review
        - title: "Review [original-task] against ADR-XXX"
        - architecture_review:
@@ -221,7 +223,7 @@ This command handles the cascading updates needed when an architectural decision
        - status: "pending-technical-analysis"
        - priority: based on impact (high/medium/low)
        - iteration: current or next
-    3. Add reference in original task's related_bugs/notes
+    4. Add reference in original task's related_bugs/notes
     ```
 
     **Pausing In-Progress Tasks:**

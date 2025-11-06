@@ -138,7 +138,7 @@ The PM will generate a plan with iterations like:
 The functional analyst:
 - Reads the product plan
 - Identifies features for current iteration
-- Creates task files (.rumiator/tasks/TASK-XXX.yml) with:
+- Creates task files (docs/iterations/iteration-XX/tasks/TASK-XXX.yml) with:
   - **Summary**: 3-5 line description of what the task accomplishes
   - **User Stories**: User-focused stories describing the feature
   - **Acceptance Criteria**: Specific, testable criteria

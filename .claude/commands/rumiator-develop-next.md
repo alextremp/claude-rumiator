@@ -12,8 +12,9 @@ Prerequisites:
 
 ## Steps
 
-1. Scan .rumiator/tasks/ for all tasks with status "ready-for-development"
-2. If no tasks are ready:
+1. Read .rumiator/config.yml to get current iteration number
+2. Scan docs/iterations/iteration-XX/tasks/ (where XX is current iteration) for all tasks with status "ready-for-development"
+3. If no tasks are ready:
    - Check if there are tasks in earlier stages
    - Display status breakdown (X pending analysis, Y in progress, Z done)
    - Suggest appropriate command:

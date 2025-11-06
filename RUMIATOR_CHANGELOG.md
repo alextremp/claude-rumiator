@@ -13,6 +13,60 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.2.0] - 2025-11-06
+
+### Summary
+Fixed task file structure to organize tasks by iteration, preventing file conflicts and improving command performance as projects scale.
+
+### Fixed
+- Bug #9: Task files now reside in `docs/iterations/iteration-XX/tasks/` instead of `.rumiator/tasks/`
+- Commands no longer slow down as more tasks are created across iterations
+- Task files no longer conflict when transitioning between iterations
+
+### Changed
+- All commands updated to read/write tasks from iteration-specific directories
+- All agents updated to use iteration-specific task paths
+- `/rumiator-init` now creates `docs/iterations/iteration-01/tasks/` directory
+
+### Migration Instructions
+- **Type**: `automatic` for new projects, `manual` for existing projects
+- **Actions**:
+```yaml
+migrations:
+  - type: "message"
+    message: |
+      📁 IMPORTANT: Task file structure has changed
+
+      **What changed:**
+      - Task files now reside in `docs/iterations/iteration-XX/tasks/` instead of `.rumiator/tasks/`
+      - This ensures tasks are organized by iteration
+      - Commands only read tasks from current iteration (faster, fewer tokens)
+
+      **For NEW projects:**
+      - No action needed - `/rumiator-init` creates the correct structure
+
+      **For EXISTING projects with tasks:**
+      1. Read `.rumiator/config.yml` to get current iteration number
+      2. Create directory: `docs/iterations/iteration-XX/tasks/` (where XX is current iteration)
+      3. Move task files:
+         ```bash
+         mkdir -p docs/iterations/iteration-01/tasks
+         mv .rumiator/tasks/*.yml docs/iterations/iteration-01/tasks/
+         ```
+      4. If you have multiple iterations:
+         - Separate tasks by iteration number
+         - Move each TASK-XXX.yml to its corresponding iteration directory
+
+      **Benefits:**
+      - Commands run faster (only scan current iteration's tasks)
+      - No file conflicts between iterations
+      - Clear organization: each iteration's tasks are self-contained
+      - Lower token usage as project scales
+```
+- **Description**: Reorganizes task files by iteration to improve performance and prevent conflicts.
+
+---
+
 ## [2.1.0] - 2025-11-01
 
 ### Summary

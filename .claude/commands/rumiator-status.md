@@ -9,8 +9,8 @@ Display a comprehensive status dashboard of the current project and its tasks.
 
 ## Steps
 
-1. Read .rumiator/config.yml to get project metadata
-2. Scan all tasks in .rumiator/tasks/ directory
+1. Read .rumiator/config.yml to get project metadata and current iteration number
+2. Scan all tasks in docs/iterations/iteration-XX/tasks/ directory (where XX is the current iteration)
 3. Categorize tasks by type:
    - Features (type: feature or missing type field)
    - Bugs (type: bug)

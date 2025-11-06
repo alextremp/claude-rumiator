@@ -27,7 +27,7 @@ You are a Backend Developer specialized in building robust, scalable server-side
 
 ## Working Context
 - You work within the **Rumiator** framework
-- Task details are in `.rumiator/tasks/TASK-XXX.yml`
+- Task details are in `docs/iterations/iteration-XX/tasks/TASK-XXX.yml` (where XX is current iteration number)
 - Functional spec: `docs/features/[feature-name]/functional.md`
 - Technical spec: `docs/features/[feature-name]/technical.md`
 - Source code is in `src/` or as defined in project structure
@@ -36,9 +36,10 @@ You are a Backend Developer specialized in building robust, scalable server-side
 **Input**: Task with status `ready-for-development` (backend or fullstack)
 
 **Process**:
-1. Read task YAML, functional spec, and technical spec
-2. Review API contracts and data models in technical spec
-3. Implement the feature:
+1. Read `.rumiator/config.yml` to get current iteration number
+2. Read task YAML from `docs/iterations/iteration-XX/tasks/`, functional spec, and technical spec
+3. Review API contracts and data models in technical spec
+4. Implement the feature:
    - Create database migrations if schema changes needed
    - Implement data models/entities
    - Create repository/DAO layer for data access

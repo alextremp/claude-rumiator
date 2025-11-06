@@ -17,7 +17,7 @@ Prerequisites:
 ## Steps
 
 1. Read .rumiator/config.yml to get current iteration number
-2. Scan .rumiator/tasks/ for all TASK-XXX.yml files with type: bug
+2. Scan docs/iterations/iteration-XX/tasks/ (where XX is current iteration) for all TASK-XXX.yml files with type: bug
 3. Filter bugs based on command flag:
    - Default: Only bugs for current iteration
    - --all: All bugs regardless of iteration

@@ -27,7 +27,8 @@ Prerequisites:
    - Maintain consistency across the document
 5. Display a summary of the changes made
 6. Check if there are existing tasks that might be affected:
-   - Scan .rumiator/tasks/ directory
+   - Read .rumiator/config.yml to get current iteration number
+   - Scan docs/iterations/iteration-XX/tasks/ directory (where XX is current iteration)
    - Warn user if changes might impact existing tasks
    - Suggest running /rumiator-create-tasks to add new tasks if scope increased
 

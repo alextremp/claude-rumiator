@@ -29,6 +29,7 @@ Rumiator helps you build software projects systematically by combining specializ
 ```
 
 **⚡ New**: Business requirements now integrated into task creation - faster workflow!
+**🎨 New**: Customize commands and agents to fit your workflow - without losing changes on updates!
 
 ## Features
 
@@ -40,6 +41,7 @@ Rumiator helps you build software projects systematically by combining specializ
 ✅ **Decision transparency** - All choices documented
 ✅ **Bug tracking & management** - Track bugs alongside features
 ✅ **Architecture evolution** - Review and update architectural decisions
+✅ **Customizable workflows** - Override commands and agents to match your team's needs
 ✅ **You're in control** - Agents ask before important decisions
 
 ## Architecture

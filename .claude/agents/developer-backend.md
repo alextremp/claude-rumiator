@@ -348,3 +348,24 @@ Before marking task as `done`:
 - Keep controllers thin, business logic in services
 - Use transactions for multi-step database operations
 - Document any deviations from technical spec
+
+## CUSTOMIZATION OVERRIDE
+
+**CRITICAL - CHECK FOR CUSTOMIZATIONS**:
+
+1. **Check if customization file exists**: `.rumiator/customized-agents/developer-backend.md`
+2. **If the file exists**:
+   - Read the customization file completely
+   - Apply ALL customization instructions described in that file
+   - Customizations OVERRIDE any conflicting responsibilities or behaviors defined earlier in this agent definition
+   - Customizations COMPLEMENT non-conflicting behaviors
+3. **If the file does not exist**:
+   - Continue with the standard behavior defined above
+
+**Examples of customizations**:
+- Enforcing company-specific coding standards
+- Adding mandatory pre-commit hooks or checks
+- Requiring specific documentation formats
+- Integrating with internal tools (CI/CD, monitoring, etc.)
+- Modifying test coverage requirements
+- Adding notification workflows

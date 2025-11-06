@@ -111,9 +111,9 @@ e. If any action fails:
 a. Copy all files from the official repository to ensure changes are applied correctly:
 
    ```bash
-   cp -Rf .repositories/claude-rumiator/.claude .
-   cp -Rf .repositories/claude-rumiator/.rumiator .
-   cp -Rf .repositories/claude-rumiator/*.md .
+   cp -Rf repositories/claude-rumiator/.claude .
+   cp -Rf repositories/claude-rumiator/.rumiator .
+   cp -Rf repositories/claude-rumiator/*.md .
    ```
 
 b. These commands will:
@@ -130,6 +130,19 @@ c. Display progress:
 
 d. If any copy fails, display error and ask user if they want to continue or abort
 
+### 6.5. Customizations Information
+
+**Note**: Your customizations are preserved automatically!
+
+- Customizations in `.rumiator/customized-commands/` are NOT overwritten
+- Customizations in `.rumiator/customized-agents/` are NOT overwritten
+- These directories are unique to your project and won't be affected by updates
+
+If the customization directories don't exist yet:
+- Create `.rumiator/customized-commands/` to customize commands
+- Create `.rumiator/customized-agents/` to customize agents
+- See RUMIATOR-GUIDE.md for details on customization format
+
 ### 7. Update Project Version
 
 a. Update `rumiator_version` in `.rumiator/config.yml` to latest version
@@ -143,9 +156,11 @@ b. Display success message:
    - New version: X.Y.Z
    - Migrations applied: N
    - Files synchronized from official repository
+   - Your customizations (if any) have been preserved
 
    Next steps:
    - Review changes in your .rumiator/ directory
+   - Check .rumiator/customized-commands/ and .rumiator/customized-agents/ for your customizations
    - Run /rumiator-status to verify everything works
    - Continue with your development workflow
    ```

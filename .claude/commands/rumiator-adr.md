@@ -87,3 +87,23 @@ Important:
 - Keep it concise (1-2 pages max)
 - Link to other relevant ADRs
 - Update architecture.md to reflect the decision
+
+## CUSTOMIZATION OVERRIDE
+
+**CRITICAL - CHECK FOR CUSTOMIZATIONS**:
+
+1. **Check if customization file exists**: `.rumiator/customized-commands/rumiator-adr.md`
+2. **If the file exists**:
+   - Read the customization file completely
+   - Apply ALL customization instructions described in that file
+   - Customizations OVERRIDE any conflicting steps or behaviors defined earlier in this command
+   - Customizations COMPLEMENT non-conflicting steps
+3. **If the file does not exist**:
+   - Continue with the standard behavior defined above
+
+**Examples of customizations**:
+- Adding pre/post execution hooks (notifications, validations, etc.)
+- Modifying specific steps in the workflow
+- Adding additional checks or requirements
+- Integrating with company-specific tools
+- Changing output formats or destinations

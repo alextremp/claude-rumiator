@@ -13,6 +13,96 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.3.0] - 2025-11-06
+
+### Summary
+Added support for customizing commands and agents without losing changes during `/rumiator-update`. Users can now create customization files that override or complement default behaviors.
+
+### Added
+- Feature #11: Customization system for commands and agents
+- New directories: `.rumiator/customized-commands/` and `.rumiator/customized-agents/`
+- Example files: `.rumiator/examples/customization-example-command.md` and `.rumiator/examples/customization-example-agent.md`
+- CUSTOMIZATION OVERRIDE section added to all 17 commands (except `/rumiator-workflow-pr` which was not modified)
+- CUSTOMIZATION OVERRIDE section added to all 7 agents
+
+### Changed
+- Updated all commands to check for customization files before executing
+- Updated all agents to check for customization files before executing
+- Updated command: `/rumiator-update` - Now includes informational section about customizations being preserved automatically
+
+### Migration Instructions
+- **Type**: `automatic`
+- **Actions**:
+```yaml
+migrations:
+  - type: "add_file"
+    description: "Create customized-commands directory"
+    source: ".rumiator/customized-commands/.gitkeep"
+    target: ".rumiator/customized-commands/.gitkeep"
+    optional: true
+
+  - type: "add_file"
+    description: "Create customized-agents directory"
+    source: ".rumiator/customized-agents/.gitkeep"
+    target: ".rumiator/customized-agents/.gitkeep"
+    optional: true
+
+  - type: "add_file"
+    description: "Add customization example for commands"
+    source: ".rumiator/examples/customization-example-command.md"
+    target: ".rumiator/examples/customization-example-command.md"
+    optional: true
+
+  - type: "add_file"
+    description: "Add customization example for agents"
+    source: ".rumiator/examples/customization-example-agent.md"
+    target: ".rumiator/examples/customization-example-agent.md"
+    optional: true
+
+  - type: "message"
+    message: |
+      🎨 NEW FEATURE: Command and Agent Customization
+
+      **What's new:**
+      - You can now customize commands and agents without modifying core files
+      - Customizations survive `/rumiator-update` automatically
+      - Two new directories created:
+        * `.rumiator/customized-commands/` - for command customizations
+        * `.rumiator/customized-agents/` - for agent customizations
+
+      **How to use:**
+      1. Create a customization file:
+         - For commands: `.rumiator/customized-commands/[command-name].md`
+         - For agents: `.rumiator/customized-agents/[agent-name].md`
+      2. Add customization instructions in the file
+      3. See examples in `.rumiator/examples/` for templates
+
+      **Example:**
+      To customize `/rumiator-develop`, create:
+      `.rumiator/customized-commands/rumiator-develop.md`
+
+      ```markdown
+      # Customization: rumiator-develop.md
+
+      ## Customization Instructions
+
+      - BEFORE starting development, send notification to Discord
+      - AFTER completing development, update CHANGELOG.md
+      - ALWAYS run strict linting before marking task as done
+      ```
+
+      **Benefits:**
+      - Integrate company-specific workflows
+      - Add pre/post execution hooks (notifications, validations)
+      - Customize quality checks and standards
+      - Integrate with internal tools
+
+      See RUMIATOR-GUIDE.md for full documentation on customizations.
+```
+- **Description**: Adds customization system that allows users to override or complement command and agent behaviors.
+
+---
+
 ## [2.2.0] - 2025-11-06
 
 ### Summary

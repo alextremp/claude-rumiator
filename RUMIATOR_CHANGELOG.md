@@ -13,6 +13,57 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.4.1] - 2025-11-07
+
+### Summary
+Fixed issue #15: `/rumiator-update` no longer copies GitHub Actions workflows to user projects. The `auto-release.yml` workflow is internal to the Rumiator project and should not interfere with user CI/CD pipelines.
+
+### Fixed
+- Issue #15: `/rumiator-update` no longer copies `.github/workflows/` directory
+- Removed problematic migration from version 2.4.0 that copied `auto-release.yml` to user projects
+- Updated `/rumiator-update` command documentation to explicitly exclude GitHub Actions workflows
+- Added cleanup migration to remove `auto-release.yml` if it was inadvertently copied
+
+### Changed
+- Updated command: `/rumiator-update` - Added explicit documentation to NOT copy `.github/workflows/` directory
+- Updated command: `/rumiator-update` - Added progress message confirming that `.github/workflows` is being skipped
+
+### Migration Instructions
+- **Type**: `automatic`
+- **Actions**:
+```yaml
+migrations:
+  - type: "delete_file"
+    description: "Remove GitHub Actions workflow if it was copied in previous update"
+    file: ".github/workflows/auto-release.yml"
+    optional: true
+    confirm: false
+
+  - type: "message"
+    message: |
+      🐛 BUGFIX: GitHub Actions Exclusion
+
+      **What was fixed:**
+      - `/rumiator-update` was incorrectly copying `.github/workflows/auto-release.yml` to user projects
+      - This file is internal to the Rumiator repository and interfered with user CI/CD pipelines
+
+      **What changed:**
+      - If `auto-release.yml` was copied to your project, it has been automatically removed
+      - Future updates will NOT copy any files from `.github/workflows/`
+      - The Rumiator release automation remains functional in the official repository
+
+      **Action needed:**
+      - ✅ None - the cleanup has been done automatically
+      - If you customized the copied workflow, you may want to check your `.github/workflows/` directory
+
+      **Benefits:**
+      - Your CI/CD pipeline will not be affected by Rumiator's internal workflows
+      - Cleaner project structure without unnecessary automation files
+```
+- **Description**: Removes incorrectly copied GitHub Actions workflow and prevents future copying of internal CI/CD files.
+
+---
+
 ## [2.4.0] - 2025-11-07
 
 ### Summary
@@ -36,30 +87,19 @@ Improved release workflow with automatic GitHub Release creation and stable upda
 - **Actions**:
 ```yaml
 migrations:
-  - type: "add_file"
-    description: "Add GitHub Actions workflow for auto-release"
-    source: ".github/workflows/auto-release.yml"
-    target: ".github/workflows/auto-release.yml"
-    optional: false
-
   - type: "message"
     message: |
       🚀 NEW FEATURE: Automated Release System
 
       **What's new:**
-      - Releases are now created automatically when RUMIATOR_CHANGELOG.md is updated
-      - GitHub Actions workflow ensures version consistency between changelog and config
+      - Releases are now created automatically when RUMIATOR_CHANGELOG.md is updated in the Rumiator repository
       - `/rumiator-update` now uses stable published releases instead of master branch
       - Each release includes a summary and comparison link
 
       **How it works:**
-      1. When you add a new version entry to RUMIATOR_CHANGELOG.md (format: [X.Y.Z] - YYYY-MM-DD)
-      2. Push to master branch
-      3. GitHub Actions automatically:
-         - Detects the new version
-         - Verifies config.yml.template has matching rumiator_version
-         - Updates config if needed (automatic commit)
-         - Creates a GitHub Release with changelog summary and comparison link
+      1. When Rumiator maintainers add a new version to RUMIATOR_CHANGELOG.md
+      2. GitHub Actions in the Rumiator repository automatically create a release
+      3. Your project benefits from this by getting stable, tested versions
 
       **For updates:**
       - `/rumiator-update` now downloads from latest published release
@@ -70,11 +110,13 @@ migrations:
       - ✅ Version consistency guaranteed
       - ✅ Stable, tested updates
       - ✅ Clear traceability with comparison links
-      - ✅ No manual release creation needed
 
       **No action needed** - The new workflow applies automatically on next update!
+
+      **Note**: The GitHub Actions workflow (auto-release.yml) is internal to the Rumiator
+      repository and will NOT be copied to your project to avoid interfering with your CI/CD.
 ```
-- **Description**: Adds automated release management system that creates GitHub Releases when changelog is updated and ensures `/rumiator-update` uses stable published releases.
+- **Description**: Updates `/rumiator-update` to use stable published releases. The release automation workflow is internal to Rumiator and not copied to user projects.
 
 ---
 

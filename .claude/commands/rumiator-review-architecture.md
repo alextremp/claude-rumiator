@@ -4,6 +4,9 @@ Usage:
 - /rumiator-review-architecture [ADR-XXX] - Review specific ADR
 - /rumiator-review-architecture - Review all blockers/issues for architecture problems
 
+Prerequisites:
+- Tasks are located in docs/iterations/iteration-XX/tasks/ (where XX is current iteration of .rumiator/config.yml)
+
 When to use:
 - Development reveals current approach is unworkable
 - Multiple bugs indicate architectural flaw

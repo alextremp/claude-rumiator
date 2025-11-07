@@ -6,6 +6,9 @@ Usage:
 
 This command handles the cascading updates needed when an architectural decision changes.
 
+Prerequisites:
+- Tasks are located in docs/iterations/iteration-XX/tasks/ (where XX is current iteration of .rumiator/config.yml)
+
 ## Language Configuration
 **IMPORTANT**: Before starting, determine the user's language:
 1. Check if `.rumiator/config.yml` exists and read the `language` field

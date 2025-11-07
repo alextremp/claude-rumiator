@@ -6,6 +6,7 @@ Usage:
 
 Prerequisites:
 - .rumiator/ directory structure must exist
+- Tasks will be located in docs/iterations/iteration-XX/tasks/ (where XX is current iteration of .rumiator/config.yml)
 
 ## Language Configuration
 **IMPORTANT**: Before starting, determine the user's language:

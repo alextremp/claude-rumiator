@@ -1,6 +1,7 @@
 Automatically select and develop the next highest-priority task that's ready for development.
 
 Prerequisites:
+- Tasks are located in docs/iterations/iteration-XX/tasks/ (where XX is current iteration of .rumiator/config.yml)
 - At least one task with status "ready-for-development" must exist
 
 ## Language Configuration

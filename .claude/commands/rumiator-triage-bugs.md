@@ -5,6 +5,7 @@ Usage:
 - /rumiator-triage-bugs --all (include bugs from all iterations)
 
 Prerequisites:
+- Tasks are located in docs/iterations/iteration-XX/tasks/ (where XX is current iteration of .rumiator/config.yml)
 - At least one bug task (type: bug) must exist
 
 ## Language Configuration

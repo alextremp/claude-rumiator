@@ -5,6 +5,7 @@ Usage:
 - /rumiator-analyze-tech all - Analyze all tasks pending technical analysis
 
 Prerequisites:
+- Tasks are located in docs/iterations/iteration-XX/tasks/ (where XX is current iteration of .rumiator/config.yml)
 - Tasks must have status "pending-technical-analysis"
 - Tasks must already include business requirements (summary, user_stories, acceptance_criteria)
 

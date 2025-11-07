@@ -33,16 +33,16 @@ Rumiator helps you build software projects systematically by combining specializ
 
 ## Features
 
-✅ **Systematic workflow** - From idea to implementation
-✅ **Specialized agents** - PM, Analyst, Architect, Developers, DevOps, QA
-✅ **Comprehensive documentation** - Auto-generated specs and ADRs
-✅ **Iterative development** - Small, manageable iterations
-✅ **Progress tracking** - Visual dashboards and reports
-✅ **Decision transparency** - All choices documented
-✅ **Bug tracking & management** - Track bugs alongside features
-✅ **Architecture evolution** - Review and update architectural decisions
-✅ **Customizable workflows** - Override commands and agents to match your team's needs
-✅ **You're in control** - Agents ask before important decisions
+- ✅ **Systematic workflow** - From idea to implementation
+- ✅ **Specialized agents** - PM, Analyst, Architect, Developers, DevOps, QA
+- ✅ **Comprehensive documentation** - Auto-generated specs and ADRs
+- ✅ **Iterative development** - Small, manageable iterations
+- ✅ **Progress tracking** - Visual dashboards and reports
+- ✅ **Decision transparency** - All choices documented
+- ✅ **Bug tracking & management** - Track bugs alongside features
+- ✅ **Architecture evolution** - Review and update architectural decisions
+- ✅ **Customizable workflows** - Override commands and agents to match your team's needs
+- ✅ **You're in control** - Agents ask before important decisions
 
 ## Architecture
 

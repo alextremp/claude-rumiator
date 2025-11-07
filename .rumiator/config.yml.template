@@ -1,6 +1,6 @@
 # Rumiator Project Configuration
 language: "es-ES"
-rumiator_version: "2.4.1"
+rumiator_version: "2.5.0"
 
 project:
   name: ""

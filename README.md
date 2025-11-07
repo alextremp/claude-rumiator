@@ -65,6 +65,7 @@ Rumiator helps you build software projects systematically by combining specializ
 |---------|---------|
 | `/rumiator-init` | Initialize project structure |
 | `/rumiator-update` | Update to latest Rumiator version |
+| `/rumiator-add-customization` | Create customizations interactively |
 | `/rumiator-create-product` | Create product plan from idea |
 | `/rumiator-update-plan` | Update product plan |
 | `/rumiator-create-tasks` | Generate tasks from plan |

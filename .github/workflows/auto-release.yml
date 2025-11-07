@@ -155,7 +155,7 @@ jobs:
           # Create comparison link
           if [ -n "$PREVIOUS_TAG" ]; then
             PREV_VERSION=${PREVIOUS_TAG#v}
-            COMPARE_LINK="**Full Changelog:** https://github.com/${{ github.repository }}/compare/${PREV_VERSION}...${NEW_VERSION}"
+            COMPARE_LINK="**Full Changelog:** https://github.com/${{ github.repository }}/compare/v${PREV_VERSION}...v${NEW_VERSION}"
           else
             COMPARE_LINK="**First Release**"
           fi

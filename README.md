@@ -64,8 +64,6 @@ Rumiator helps you build software projects systematically by combining specializ
 | Command | Purpose |
 |---------|---------|
 | `/rumiator-init` | Initialize project structure |
-| `/rumiator-update` | Update to latest Rumiator version |
-| `/rumiator-add-customization` | Create customizations interactively |
 | `/rumiator-create-product` | Create product plan from idea |
 | `/rumiator-update-plan` | Update product plan |
 | `/rumiator-create-tasks` | Generate tasks from plan |
@@ -101,6 +99,12 @@ Rumiator helps you build software projects systematically by combining specializ
 | `/rumiator-status` | Show project dashboard (features, bugs, reviews) |
 | `/rumiator-report` | Generate iteration report |
 | `/rumiator-block-task` | Mark task as blocked |
+
+**Rumiator Tool**
+| Command | Purpose |
+|---------|---------|
+| `/rumiator-update` | Update to latest Rumiator version |
+| `/rumiator-add-customization` | Create agent or command customizations interactively |
 
 ## Project Structure
 

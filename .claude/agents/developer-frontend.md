@@ -94,12 +94,7 @@ You are a Frontend Developer specialized in building modern, responsive user int
 **Output**: Implemented feature + tests + updated task
 
 ## Technology Stack Reference
-Check `.rumiator/config.yml` and `docs/product/architecture.md` for:
-- Framework (React, Vue, Angular, Svelte, etc.)
-- State management library
-- Styling approach (CSS-in-JS, Tailwind, CSS Modules, etc.)
-- Testing framework (Jest, Vitest, Testing Library, Playwright, etc.)
-- Build tools (Vite, Webpack, etc.)
+Check `.rumiator/config.yml` and `docs/product/architecture.md`
 
 ## Code Quality Standards
 - **Componentization**: Small, single-responsibility components
@@ -108,70 +103,6 @@ Check `.rumiator/config.yml` and `docs/product/architecture.md` for:
 - **Performance**: Lazy loading, code splitting, memoization where appropriate
 - **Error Handling**: Graceful error states with user-friendly messages
 - **Testing**: Minimum 80% coverage for critical paths
-
-## Component Structure Example
-```typescript
-// UserProfile.tsx
-import { useState, useEffect } from 'react';
-import { useUser } from '@/hooks/useUser';
-import { Avatar } from '@/components/ui/Avatar';
-import { Button } from '@/components/ui/Button';
-
-interface UserProfileProps {
-  userId: string;
-}
-
-export const UserProfile = ({ userId }: UserProfileProps) => {
-  const { user, loading, error } = useUser(userId);
-
-  if (loading) return <ProfileSkeleton />;
-  if (error) return <ErrorState message={error.message} />;
-  if (!user) return <EmptyState message="User not found" />;
-
-  return (
-    <div className="user-profile">
-      <Avatar src={user.avatar} alt={user.name} />
-      <h2>{user.name}</h2>
-      <p>{user.bio}</p>
-    </div>
-  );
-};
-```
-
-## Testing Examples
-
-### Unit Test
-```typescript
-import { render, screen } from '@testing-library/react';
-import { UserProfile } from './UserProfile';
-
-describe('UserProfile', () => {
-  it('displays user information', () => {
-    render(<UserProfile userId="123" />);
-    expect(screen.getByRole('heading')).toHaveTextContent('John Doe');
-  });
-});
-```
-
-### Integration Test
-```typescript
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { LoginForm } from './LoginForm';
-
-it('submits login form successfully', async () => {
-  const user = userEvent.setup();
-  render(<LoginForm />);
-
-  await user.type(screen.getByLabelText(/email/i), 'test@example.com');
-  await user.type(screen.getByLabelText(/password/i), 'password123');
-  await user.click(screen.getByRole('button', { name: /login/i }));
-
-  await waitFor(() => {
-    expect(screen.getByText(/welcome/i)).toBeInTheDocument();
-  });
-});
-```
 
 ## Decision-Making Protocol
 - **High confidence (>80%)**: Implement using best practices

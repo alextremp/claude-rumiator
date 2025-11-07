@@ -13,6 +13,48 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.6.1] - 2025-11-07
+
+### Summary
+Streamlined developer-backend, developer-frontend, and devops agents by removing verbose code examples while keeping essential instructions.
+
+### Changed
+- Improved agent: `developer-backend` - Removed verbose code examples, kept essential instructions for better clarity
+- Improved agent: `developer-frontend` - Removed verbose code examples, kept essential instructions for better clarity
+- Improved agent: `devops` - Removed verbose code examples, kept essential instructions for better clarity
+
+### Migration Instructions
+- **Type**: `automatic`
+- **Actions**:
+```yaml
+migrations:
+  - type: "message"
+    message: |
+      📝 IMPROVEMENT: Streamlined Agent Templates
+
+      **What changed:**
+      - Agent templates (developer-backend, developer-frontend, devops) have been streamlined
+      - Removed verbose code examples to focus on essential instructions
+      - Makes agents easier to read, customize, and understand
+
+      **Benefits:**
+      - ✅ More concise agent prompts
+      - ✅ Easier to customize for your project
+      - ✅ Clearer focus on workflow and requirements
+      - ✅ Reduced token usage
+
+      **Impact:**
+      - Existing projects keep their current agent versions
+      - New projects created with `/rumiator-init` get the streamlined versions automatically
+      - No action needed from you
+
+      **Note:** This change only affects the agent template files that get copied to new projects.
+      Your current agents continue to work as-is.
+```
+- **Description**: Streamlines development agents by removing verbose examples while preserving essential workflow instructions.
+
+---
+
 ## [2.6.0] - 2025-11-07
 
 ### Summary

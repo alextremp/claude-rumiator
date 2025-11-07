@@ -2,6 +2,7 @@ Generate task definitions from the product plan for the current iteration using 
 
 Prerequisites:
 - docs/product/product-plan.md must exist
+- Tasks will be located in docs/iterations/iteration-XX/tasks/ (where XX is current iteration of .rumiator/config.yml)
 
 ## Language Configuration
 **IMPORTANT**: Before starting, determine the user's language:

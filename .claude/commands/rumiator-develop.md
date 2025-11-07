@@ -4,6 +4,7 @@ Usage:
 - /rumiator-develop [task-id] - Develop a specific task
 
 Prerequisites:
+- Tasks are located in docs/iterations/iteration-XX/tasks/ (where XX is current iteration of .rumiator/config.yml)
 - Task must have status "ready-for-development"
 - Both functional and technical specs must exist
 

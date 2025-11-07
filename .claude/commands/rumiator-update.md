@@ -148,16 +148,24 @@ a. Copy all files from the official repository to ensure changes are applied cor
    cp -Rf repositories/claude-rumiator/*.md .
    ```
 
+   **IMPORTANT**: Do NOT copy `.github/workflows/` directory:
+   - The `.github/workflows/` directory contains CI/CD workflows that are internal to the Rumiator project
+   - These workflows (like `auto-release.yml`) should NOT be copied to user projects
+   - Copying them would interfere with the user's own CI/CD pipelines
+   - If `.github/` directory exists in the clone, skip copying it entirely
+
 b. These commands will:
    - Update `.claude/` directory with latest agents and commands
    - Update `.rumiator/` directory with latest configuration and templates
    - Update markdown files (CHANGELOG, README, etc.) in project root
+   - **Exclude** `.github/workflows/` to avoid interfering with user's CI/CD
 
 c. Display progress:
    ```
    ✓ Copying .claude directory...
    ✓ Copying .rumiator directory...
    ✓ Copying markdown files...
+   ✓ Skipping .github/workflows (internal to Rumiator)
    ```
 
 d. If any copy fails, display error and ask user if they want to continue or abort

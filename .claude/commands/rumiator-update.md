@@ -8,9 +8,11 @@ Update the current Rumiator project to the latest version from the official repo
 
 ## Overview
 This command updates the project to the latest Rumiator version by:
-1. Cloning/updating the official repository
+1. Cloning/updating the official repository (using the latest published release)
 2. Comparing versions
 3. Applying migrations from RUMIATOR_CHANGELOG.md
+
+**Note:** This command uses the latest published GitHub Release instead of the master branch to ensure stability. The release is automatically created when a new version is documented in RUMIATOR_CHANGELOG.md.
 
 ## Steps
 
@@ -24,13 +26,43 @@ b. Read current `rumiator_version` from `.rumiator/config.yml`
 
 ### 2. Clone/Update Official Repository
 
-a. Check if `repositories/claude-rumiator/` exists
-   - If not, clone: `git clone https://github.com/alextremp/claude-rumiator.git repositories/claude-rumiator`
-   - If exists, update: `cd repositories/claude-rumiator && git pull origin master`
+a. Get latest release version from GitHub:
+   - Use GitHub CLI: `gh api repos/alextremp/claude-rumiator/releases/latest --jq '.tag_name'`
+   - Extract tag name (e.g., "v2.3.0")
+   - If API call fails (no `gh` CLI, network error, no releases), set fallback to use `master` branch and display warning to user
+   - Store the tag name for checkout
 
-b. Handle git errors gracefully:
+b. Check if `repositories/claude-rumiator/` exists:
+   - If not, clone repository:
+     ```bash
+     git clone https://github.com/alextremp/claude-rumiator.git repositories/claude-rumiator
+     ```
+   - Then checkout the latest release tag:
+     ```bash
+     cd repositories/claude-rumiator && git fetch --tags && git checkout <latest-release-tag>
+     ```
+   - If using fallback (no releases), checkout master:
+     ```bash
+     cd repositories/claude-rumiator && git checkout master && git pull origin master
+     ```
+
+   - If exists, update to latest release:
+     ```bash
+     cd repositories/claude-rumiator && git fetch --tags && git checkout <latest-release-tag>
+     ```
+   - If using fallback (no releases), update master:
+     ```bash
+     cd repositories/claude-rumiator && git checkout master && git pull origin master
+     ```
+
+c. Handle git errors gracefully:
    - If repository has local changes, inform user to clean it or remove the directory
    - If network error, inform user to check connection
+   - If checkout fails, try to fallback to master branch with warning
+
+d. Display information to user:
+   - If using release: "Using official release version: vX.Y.Z"
+   - If using fallback: "⚠️ Warning: Could not fetch latest release, using master branch as fallback. This may include unreleased changes."
 
 ### 3. Compare Versions
 
@@ -224,6 +256,7 @@ For file overwrites:
 ```
 🔄 Actualizando Rumiator...
 
+✓ Usando release oficial: v1.2.0
 ✓ Repositorio oficial actualizado
   Versión actual: 1.0.0
   Versión disponible: 1.2.0
@@ -249,6 +282,7 @@ Próximos pasos:
 ```
 🔄 Updating Rumiator...
 
+✓ Using official release: v1.2.0
 ✓ Official repository updated
   Current version: 1.0.0
   Available version: 1.2.0

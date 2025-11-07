@@ -30,6 +30,7 @@ Rumiator helps you build software projects systematically by combining specializ
 
 **⚡ New**: Business requirements now integrated into task creation - faster workflow!
 **🎨 New**: Customize commands and agents to fit your workflow - without losing changes on updates!
+**🚀 New**: Automatic release system - updates use stable releases instead of master branch!
 
 ## Features
 
@@ -42,6 +43,8 @@ Rumiator helps you build software projects systematically by combining specializ
 - ✅ **Bug tracking & management** - Track bugs alongside features
 - ✅ **Architecture evolution** - Review and update architectural decisions
 - ✅ **Customizable workflows** - Override commands and agents to match your team's needs
+- ✅ **Automatic releases** - GitHub Actions automatically creates releases when changelog is updated
+- ✅ **Stable updates** - `/rumiator-update` uses published releases instead of master branch
 - ✅ **You're in control** - Agents ask before important decisions
 
 ## Architecture
@@ -188,6 +191,32 @@ Topics covered:
 - Best practices
 - Customization guide
 - FAQ
+
+## Release Management
+
+Rumiator uses an automated release system to ensure stable updates:
+
+### Automatic Releases
+
+When a new version is documented in `RUMIATOR_CHANGELOG.md`, GitHub Actions automatically:
+1. ✅ Detects the new version (format: `[X.Y.Z] - YYYY-MM-DD`)
+2. ✅ Compares with the latest published release
+3. ✅ Ensures `config.yml.template` has matching `rumiator_version`
+4. ✅ Creates a GitHub Release with changelog summary and comparison link
+
+### Stable Updates
+
+When you run `/rumiator-update`, it:
+- ✅ Uses the latest **published release** (not master branch)
+- ✅ Ensures you get tested, stable versions
+- ✅ Falls back to master only if releases are unavailable (with warning)
+
+### Benefits
+
+- **Stability** - Updates use verified releases
+- **Traceability** - Each release has clear changelog
+- **Consistency** - Version always matches between changelog and config
+- **Automation** - No manual release creation needed
 
 ## Requirements
 

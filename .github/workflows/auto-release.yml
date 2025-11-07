@@ -1,0 +1,192 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'RUMIATOR_CHANGELOG.md'
+
+permissions:
+  contents: write
+
+jobs:
+  auto-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract version from changelog
+        id: version
+        run: |
+          # Extract the first version entry from RUMIATOR_CHANGELOG.md
+          # Format: ## [X.Y.Z] - YYYY-MM-DD
+          VERSION=$(grep -m 1 -oP '##\s+\[\K[0-9]+\.[0-9]+\.[0-9]+(?=\])' RUMIATOR_CHANGELOG.md)
+
+          if [ -z "$VERSION" ]; then
+            echo "❌ No version found in RUMIATOR_CHANGELOG.md"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "✅ Found version in changelog: $VERSION"
+
+          # Extract the changelog content for this version (until next version or end of changelog)
+          # We'll extract from ## [X.Y.Z] to the next ## [ or end of file
+          CHANGELOG_CONTENT=$(awk '/^## \['$VERSION'\]/{flag=1; next} /^## \[/{flag=0} flag' RUMIATOR_CHANGELOG.md)
+
+          # Create a summary (first 500 chars of changelog)
+          SUMMARY=$(echo "$CHANGELOG_CONTENT" | head -c 500)
+          if [ ${#CHANGELOG_CONTENT} -gt 500 ]; then
+            SUMMARY="${SUMMARY}..."
+          fi
+
+          # Save to file to preserve multiline
+          echo "$SUMMARY" > /tmp/summary.txt
+
+          echo "✅ Extracted changelog summary"
+
+      - name: Get latest release
+        id: latest_release
+        run: |
+          # Get the latest release version from GitHub
+          LATEST_RELEASE=$(gh api repos/${{ github.repository }}/releases/latest --jq '.tag_name' 2>/dev/null || echo "")
+
+          if [ -z "$LATEST_RELEASE" ]; then
+            echo "⚠️ No previous releases found"
+            echo "latest_version=0.0.0" >> $GITHUB_OUTPUT
+            echo "previous_tag=" >> $GITHUB_OUTPUT
+          else
+            # Remove 'v' prefix if present
+            LATEST_VERSION=${LATEST_RELEASE#v}
+            echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+            echo "previous_tag=$LATEST_RELEASE" >> $GITHUB_OUTPUT
+            echo "✅ Latest release: $LATEST_VERSION"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compare versions
+        id: compare
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.version }}"
+          LATEST_VERSION="${{ steps.latest_release.outputs.latest_version }}"
+
+          echo "Comparing versions: $NEW_VERSION vs $LATEST_VERSION"
+
+          # Simple semver comparison
+          # Split versions into arrays
+          IFS='.' read -ra NEW <<< "$NEW_VERSION"
+          IFS='.' read -ra LATEST <<< "$LATEST_VERSION"
+
+          SHOULD_RELEASE=false
+
+          # Compare major
+          if [ "${NEW[0]}" -gt "${LATEST[0]}" ]; then
+            SHOULD_RELEASE=true
+          elif [ "${NEW[0]}" -eq "${LATEST[0]}" ]; then
+            # Compare minor
+            if [ "${NEW[1]}" -gt "${LATEST[1]}" ]; then
+              SHOULD_RELEASE=true
+            elif [ "${NEW[1]}" -eq "${LATEST[1]}" ]; then
+              # Compare patch
+              if [ "${NEW[2]}" -gt "${LATEST[2]}" ]; then
+                SHOULD_RELEASE=true
+              fi
+            fi
+          fi
+
+          echo "should_release=$SHOULD_RELEASE" >> $GITHUB_OUTPUT
+
+          if [ "$SHOULD_RELEASE" = true ]; then
+            echo "✅ New version detected: $NEW_VERSION > $LATEST_VERSION"
+          else
+            echo "ℹ️ Version $NEW_VERSION is not greater than $LATEST_VERSION - skipping release"
+          fi
+
+      - name: Check and update config.yml.template
+        id: update_config
+        if: steps.compare.outputs.should_release == 'true'
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.version }}"
+          CONFIG_FILE=".rumiator/config.yml.template"
+
+          # Read current rumiator_version from config
+          CURRENT_CONFIG_VERSION=$(grep -oP 'rumiator_version:\s*"\K[^"]+' "$CONFIG_FILE" || echo "")
+
+          echo "Config version: $CURRENT_CONFIG_VERSION"
+          echo "Changelog version: $NEW_VERSION"
+
+          if [ "$CURRENT_CONFIG_VERSION" != "$NEW_VERSION" ]; then
+            echo "⚠️ Version mismatch detected - updating config.yml.template"
+
+            # Update the version in config.yml.template
+            sed -i "s/rumiator_version: \".*\"/rumiator_version: \"$NEW_VERSION\"/" "$CONFIG_FILE"
+
+            # Configure git
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+
+            # Commit and push
+            git add "$CONFIG_FILE"
+            git commit -m "chore: update rumiator_version to $NEW_VERSION"
+            git push
+
+            echo "config_updated=true" >> $GITHUB_OUTPUT
+            echo "✅ Config updated and committed"
+          else
+            echo "config_updated=false" >> $GITHUB_OUTPUT
+            echo "✅ Config already up to date"
+          fi
+
+      - name: Create GitHub Release
+        if: steps.compare.outputs.should_release == 'true'
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.version }}"
+          PREVIOUS_TAG="${{ steps.latest_release.outputs.previous_tag }}"
+
+          # Read the summary
+          SUMMARY=$(cat /tmp/summary.txt)
+
+          # Create comparison link
+          if [ -n "$PREVIOUS_TAG" ]; then
+            PREV_VERSION=${PREVIOUS_TAG#v}
+            COMPARE_LINK="**Full Changelog:** https://github.com/${{ github.repository }}/compare/${PREV_VERSION}...${NEW_VERSION}"
+          else
+            COMPARE_LINK="**First Release**"
+          fi
+
+          # Create release body
+          RELEASE_BODY=$(cat <<EOF
+          $SUMMARY
+
+          ---
+
+          $COMPARE_LINK
+          EOF
+          )
+
+          # Create the release
+          echo "$RELEASE_BODY" | gh release create "v${NEW_VERSION}" \
+            --title "Version ${NEW_VERSION}" \
+            --notes-file - \
+            --latest
+
+          echo "✅ Release v${NEW_VERSION} created successfully!"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.compare.outputs.should_release == 'true'
+        run: |
+          echo "## 🚀 Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version:** ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Config Updated:** ${{ steps.update_config.outputs.config_updated }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release Created:** ✅" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[View Release](https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }})" >> $GITHUB_STEP_SUMMARY

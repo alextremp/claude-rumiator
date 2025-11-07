@@ -834,6 +834,69 @@ Edit `.rumiator/templates/*.md` to:
 - Add custom sections
 - Adjust formatting
 
+## 🚀 Release Management & Updates
+
+Rumiator includes an automated release system to ensure stable and consistent updates across all installations.
+
+### How Releases Work
+
+1. **Automatic Release Creation**
+   - When `RUMIATOR_CHANGELOG.md` is updated with a new version (format: `[X.Y.Z] - YYYY-MM-DD`)
+   - GitHub Actions workflow automatically detects the version change
+   - The workflow verifies `config.yml.template` has matching `rumiator_version`
+   - If versions don't match, it automatically updates and commits the config
+   - Creates a GitHub Release with:
+     - Tag: `vX.Y.Z`
+     - Title: `Version X.Y.Z`
+     - Body: Summary of changes + comparison link (e.g., `2.3.0...2.4.0`)
+
+2. **Stable Updates with `/rumiator-update`**
+   - Fetches the latest **published GitHub Release** (not master branch)
+   - Ensures you receive tested, stable versions
+   - Falls back to master branch only if:
+     - GitHub API is unavailable
+     - No releases have been published yet
+     - Displays warning when using fallback mode
+
+### Benefits
+
+- ✅ **Consistency** - Version in changelog always matches config
+- ✅ **Stability** - Updates use verified releases, not work-in-progress code
+- ✅ **Traceability** - Each release has clear changelog and comparison
+- ✅ **Automation** - No manual release creation needed
+- ✅ **Transparency** - Full change history with links to diffs
+
+### For Contributors
+
+When adding new features to Rumiator:
+
+1. Make your changes in a feature branch
+2. Update `RUMIATOR_CHANGELOG.md` with new version entry:
+   ```markdown
+   ## [X.Y.Z] - YYYY-MM-DD
+
+   ### Summary
+   Brief description of changes
+
+   ### Added/Changed/Fixed
+   - Detailed changes...
+
+   ### Migration Instructions
+   - Type: automatic/manual/none
+   - Actions: ...
+   ```
+3. Commit and push to master
+4. GitHub Actions automatically:
+   - Updates `config.yml.template` if needed
+   - Creates the release with summary and comparison link
+
+### Version Numbering
+
+Rumiator follows [Semantic Versioning](https://semver.org/):
+- **MAJOR** (X.0.0) - Breaking changes, manual migration required
+- **MINOR** (0.X.0) - New features, backwards compatible
+- **PATCH** (0.0.X) - Bug fixes, backwards compatible
+
 ## ❓ FAQ
 
 ### When should I use Rumiator?

@@ -13,6 +13,71 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.4.0] - 2025-11-07
+
+### Summary
+Improved release workflow with automatic GitHub Release creation and stable update system. When changelog is updated with a new version, GitHub Actions automatically ensures config consistency and creates releases. The `/rumiator-update` command now uses published releases instead of master branch for more stable updates.
+
+### Added
+- Feature #13: Automated release management system
+- New GitHub Action: `.github/workflows/auto-release.yml` - Automatically creates releases when changelog is updated
+- Release automation: Detects new versions in changelog, verifies config.yml.template consistency, creates GitHub Releases
+- Version consistency: Automatically commits config.yml.template updates when version mismatch detected
+- Release format: Includes changelog summary and comparison link (e.g., `https://github.com/alextremp/claude-rumiator/compare/2.3.0...2.4.0`)
+
+### Changed
+- Updated command: `/rumiator-update` - Now fetches and uses latest published GitHub Release instead of master branch
+- Updated command: `/rumiator-update` - Added fallback to master branch with warning if releases unavailable
+- Updated README.md: Added "Release Management" section documenting the new system
+- Updated RUMIATOR-GUIDE.md: Added "Release Management & Updates" section with detailed documentation
+
+### Migration Instructions
+- **Type**: `automatic`
+- **Actions**:
+```yaml
+migrations:
+  - type: "add_file"
+    description: "Add GitHub Actions workflow for auto-release"
+    source: ".github/workflows/auto-release.yml"
+    target: ".github/workflows/auto-release.yml"
+    optional: false
+
+  - type: "message"
+    message: |
+      🚀 NEW FEATURE: Automated Release System
+
+      **What's new:**
+      - Releases are now created automatically when RUMIATOR_CHANGELOG.md is updated
+      - GitHub Actions workflow ensures version consistency between changelog and config
+      - `/rumiator-update` now uses stable published releases instead of master branch
+      - Each release includes a summary and comparison link
+
+      **How it works:**
+      1. When you add a new version entry to RUMIATOR_CHANGELOG.md (format: [X.Y.Z] - YYYY-MM-DD)
+      2. Push to master branch
+      3. GitHub Actions automatically:
+         - Detects the new version
+         - Verifies config.yml.template has matching rumiator_version
+         - Updates config if needed (automatic commit)
+         - Creates a GitHub Release with changelog summary and comparison link
+
+      **For updates:**
+      - `/rumiator-update` now downloads from latest published release
+      - More stable: you get tested versions, not work-in-progress code
+      - Automatic fallback to master if releases unavailable (with warning)
+
+      **Benefits:**
+      - ✅ Version consistency guaranteed
+      - ✅ Stable, tested updates
+      - ✅ Clear traceability with comparison links
+      - ✅ No manual release creation needed
+
+      **No action needed** - The new workflow applies automatically on next update!
+```
+- **Description**: Adds automated release management system that creates GitHub Releases when changelog is updated and ensures `/rumiator-update` uses stable published releases.
+
+---
+
 ## [2.3.0] - 2025-11-06
 
 ### Summary

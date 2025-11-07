@@ -13,6 +13,93 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.6.0] - 2025-11-07
+
+### Summary
+Enhanced development agents (developer-frontend, developer-backend, devops, architect) with explicit repository context requirements. Agents now systematically read project documentation, review ADRs, and follow project-specific conventions before starting work, resulting in implementations that better align with existing architecture.
+
+### Changed
+- Updated agent: `developer-frontend` - Added "Repository Context Requirements" section
+- Updated agent: `developer-backend` - Added "Repository Context Requirements" section
+- Updated agent: `devops` - Added "Repository Context Requirements" section
+- Updated agent: `architect` - Added "Repository Context Requirements" section
+
+### Added
+- Feature #20: Repository context awareness for development agents
+- Requirement to read `README.md` before starting work
+- Requirement to review related ADRs from `docs/adr/` directory
+- Requirement to propose ADR changes when tasks impact architecture
+- Requirement to identify and follow project-specific conventions
+- Example questions for each agent type to guide context gathering
+
+### Migration Instructions
+- **Type**: `automatic`
+- **Actions**:
+```yaml
+migrations:
+  - type: "update_file"
+    description: "Update development agents with repository context requirements"
+    files:
+      - ".claude/agents/developer-frontend.md"
+      - ".claude/agents/developer-backend.md"
+      - ".claude/agents/devops.md"
+      - ".claude/agents/architect.md"
+    optional: false
+
+  - type: "message"
+    message: |
+      🔍 ENHANCEMENT: Repository Context Awareness for Agents
+
+      **What's new:**
+      - All development agents now have explicit "Repository Context Requirements"
+      - Agents systematically gather context before starting work
+      - Better alignment with existing architecture and project conventions
+
+      **What agents now do:**
+      1. **Read Project Documentation**:
+         - ALWAYS read the repository's README.md
+         - Understand structure, setup, and conventions
+         - Check for project-specific guidelines
+
+      2. **Review Architecture Decisions**:
+         - Check docs/adr/ for relevant ADRs
+         - Identify ADRs related to current task
+         - Understand architectural context and constraints
+         - Ensure implementation aligns with decisions
+
+      3. **Propose ADR Changes**:
+         - When task impacts architecture
+         - When needing to deviate from existing ADR
+         - When better approach conflicts with current decisions
+         - ASK ARCHITECT for review before proceeding
+
+      4. **Follow Project Conventions**:
+         - Identify folder structure and naming patterns
+         - Use established code organization patterns
+         - Follow same libraries, patterns, and approaches
+         - Respect linting, formatting, commit conventions
+
+      **Benefits:**
+      - ✅ Implementations better aligned with existing architecture
+      - ✅ Agents respect project-specific patterns and conventions
+      - ✅ Reduced architectural drift over time
+      - ✅ Proactive ADR proposals when architecture changes needed
+      - ✅ More consistent code across the project
+
+      **Example improvements:**
+      - Backend agent checks for layering patterns (controller/service/repository)
+      - Frontend agent identifies component structure (atomic design, etc.)
+      - DevOps agent reviews deployment strategies and infrastructure patterns
+      - Architect agent thoroughly reviews all ADRs before technical analysis
+
+      **No action needed** - Agents automatically follow new requirements!
+
+      **Pro tip:** Keep your README.md and ADRs up-to-date for best results.
+```
+- **Description**: Enhances development agents with systematic repository context gathering for better architectural alignment.
+
+---
+
 ## [2.5.0] - 2025-11-07
 
 ### Summary

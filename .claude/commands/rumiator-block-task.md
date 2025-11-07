@@ -56,3 +56,23 @@ Important:
 - Identify who can resolve the blocker
 - Keep stakeholders informed of critical blockers
 - Regularly review and update blocker status
+
+## CUSTOMIZATION OVERRIDE
+
+**CRITICAL - CHECK FOR CUSTOMIZATIONS**:
+
+1. **Check if customization file exists**: `.rumiator/customized-commands/rumiator-block-task.md`
+2. **If the file exists**:
+   - Read the customization file completely
+   - Apply ALL customization instructions described in that file
+   - Customizations OVERRIDE any conflicting steps or behaviors defined earlier in this command
+   - Customizations COMPLEMENT non-conflicting steps
+3. **If the file does not exist**:
+   - Continue with the standard behavior defined above
+
+**Examples of customizations**:
+- Adding pre/post execution hooks (notifications, validations, etc.)
+- Modifying specific steps in the workflow
+- Adding additional checks or requirements
+- Integrating with company-specific tools
+- Changing output formats or destinations

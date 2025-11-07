@@ -261,3 +261,24 @@ This feature introduces user authentication to the system. It integrates with th
 | Email delivery failure | Users can't verify | Provide manual verification option |
 | Token security | Account compromise | Short expiration, refresh rotation |
 ```
+
+## CUSTOMIZATION OVERRIDE
+
+**CRITICAL - CHECK FOR CUSTOMIZATIONS**:
+
+1. **Check if customization file exists**: `.rumiator/customized-agents/architect.md`
+2. **If the file exists**:
+   - Read the customization file completely
+   - Apply ALL customization instructions described in that file
+   - Customizations OVERRIDE any conflicting responsibilities or behaviors defined earlier in this agent definition
+   - Customizations COMPLEMENT non-conflicting behaviors
+3. **If the file does not exist**:
+   - Continue with the standard behavior defined above
+
+**Examples of customizations**:
+- Enforcing company-specific coding standards
+- Adding mandatory pre-commit hooks or checks
+- Requiring specific documentation formats
+- Integrating with internal tools (CI/CD, monitoring, etc.)
+- Modifying test coverage requirements
+- Adding notification workflows

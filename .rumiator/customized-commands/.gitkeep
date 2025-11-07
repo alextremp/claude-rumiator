@@ -1,0 +1,3 @@
+# This directory stores customizations for Rumiator commands
+# Create .md files here to customize command behavior
+# Example: rumiator-develop.md to customize the rumiator-develop command

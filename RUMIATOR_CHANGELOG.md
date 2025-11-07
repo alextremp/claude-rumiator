@@ -13,6 +13,77 @@ Each version should include:
 - **Changes**: Categorized as Added, Changed, Deprecated, Removed, Fixed, Security
 - **Migration instructions**: What users need to do to update their projects
 
+## [2.5.0] - 2025-11-07
+
+### Summary
+Added interactive command `/rumiator-add-customization` to help users create customizations for agents and commands easily, without manually creating files. This feature addresses issue #17 by providing a guided workflow to customize Rumiator's behavior.
+
+### Added
+- Feature #17: New command `/rumiator-add-customization` - Interactive wizard to create customizations
+- Guided selection: Choose between customizing agents or commands
+- List of all available agents and commands
+- Conflict detection: Identifies existing customizations and offers merge/replace options
+- AI-powered proposal generation: Creates customization instructions based on user descriptions
+- Iterative refinement: Users can request modifications to proposals before applying
+- Multi-language support: Respects language setting from `.rumiator/config.yml`
+
+### Migration Instructions
+- **Type**: `automatic`
+- **Actions**:
+```yaml
+migrations:
+  - type: "add_file"
+    description: "Add /rumiator-add-customization command"
+    source: ".claude/commands/rumiator-add-customization.md"
+    target: ".claude/commands/rumiator-add-customization.md"
+    optional: false
+
+  - type: "message"
+    message: |
+      🎨 NEW COMMAND: Interactive Customization Creator
+
+      **What's new:**
+      - New command: `/rumiator-add-customization`
+      - Create customizations interactively without manually editing files
+      - AI-powered proposal generation based on your requirements
+
+      **How to use:**
+      1. Run `/rumiator-add-customization`
+      2. Choose what to customize (agents or commands)
+      3. Select from available options
+      4. Describe what you want to customize
+      5. Review and approve the AI-generated proposal
+
+      **Features:**
+      - ✅ Conflict detection for existing customizations
+      - ✅ Merge or replace existing customization content
+      - ✅ Iterative refinement (modify proposals before applying)
+      - ✅ Multi-language support (Spanish, English, etc.)
+      - ✅ Guided workflow - no need to know file formats
+
+      **Example workflow:**
+      ```
+      /rumiator-add-customization
+
+      > 1. Agentes
+      > 2. developer-frontend
+      > "Necesito que siempre use nuestra librería de componentes @acme/ui"
+      > Review proposal
+      > Apply customization
+      ```
+
+      **Benefits:**
+      - No need to manually create customization files
+      - AI generates proper instruction format
+      - Prevents syntax errors
+      - Handles conflicts intelligently
+
+      Try it now: `/rumiator-add-customization`
+```
+- **Description**: Adds interactive command to simplify the customization creation process.
+
+---
+
 ## [2.4.1] - 2025-11-07
 
 ### Summary

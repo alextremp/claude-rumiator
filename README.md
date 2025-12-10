@@ -133,7 +133,7 @@ your-project/
 │       │   └── architecture-change-*.md
 │       └── iteration-02/       # Future iterations
 │           └── ...
-└── src/                        # Source code
+└── repositories/               # Source code
 ```
 
 ## Example Workflow

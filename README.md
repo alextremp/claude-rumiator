@@ -112,10 +112,6 @@ Rumiator helps you build software projects systematically by combining specializ
 your-project/
 ├── .rumiator/
 │   ├── config.yml              # Configuration
-│   ├── tasks/                  # Task definitions (features, bugs, reviews)
-│   │   ├── TASK-001.yml        # type: feature
-│   │   ├── TASK-015.yml        # type: bug
-│   │   └── TASK-040.yml        # type: architecture-review
 │   └── templates/              # Document templates
 ├── docs/
 │   ├── product/                # Product plan, architecture
@@ -127,6 +123,10 @@ your-project/
 │   │   └── reviews/            # Architecture review documents
 │   └── iterations/             # Iteration reports & plans
 │       ├── iteration-01/       # Current iteration
+│       │   ├── tasks/                  # Task definitions (features, bugs, reviews)
+│       │   │   ├── TASK-001.yml        # type: feature
+│       │   │   ├── TASK-015.yml        # type: bug
+│       │   │   └── TASK-040.yml        # type: architecture-review
 │       │   ├── plan.md
 │       │   ├── report.md
 │       │   ├── bug-triage-report.md

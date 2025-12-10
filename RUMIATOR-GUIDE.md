@@ -44,9 +44,6 @@ After initialization, your project will have:
 your-project/
 ├── .rumiator/
 │   ├── config.yml              # Project configuration
-│   ├── tasks/                  # Task definitions (YAML)
-│   │   ├── TASK-001.yml
-│   │   └── TASK-002.yml
 │   └── templates/              # Document templates
 ├── docs/
 │   ├── product/
@@ -63,9 +60,8 @@ your-project/
 │   ├── adr/                    # Architecture Decision Records
 │   │   ├── ADR-001-framework-choice.md
 │   │   └── ADR-002-database-selection.md
-│   └── iterations/             # Iteration reports
-│       └── iteration-01-report.md
-└── src/                        # Source code
+│   └── iterations/             # Iterations
+└── repositories/               # Source code
 ```
 
 ## 🚀 Getting Started

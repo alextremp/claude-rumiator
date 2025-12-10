@@ -172,8 +172,11 @@ Idea → Plan → Tasks (with business requirements) → Technical Guidance → 
 ```
 .rumiator/
   config.yml           ← Project configuration
-  tasks/
-    TASK-001.yml       ← Task definitions
+
+iterations/
+  iteration-01/
+    tasks/
+      TASK-001.yml       ← Task definitions
 
 docs/
   product/

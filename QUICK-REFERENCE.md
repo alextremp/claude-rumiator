@@ -118,7 +118,6 @@ Special states:
 ```
 .rumiator/
   config.yml              → Project config
-  tasks/TASK-XXX.yml      → Task definitions
 
 docs/
   product/
@@ -135,6 +134,7 @@ docs/
       ADR-XXX-review.md
   iterations/
     iteration-01/                  → First iteration (padded 2 digits)
+      tasks/TASK-XXX.yml           → Task definitions
       plan.md                      → Iteration plan
       report.md                    → Iteration report
       bug-triage-report.md         → Bug triage 🆕
